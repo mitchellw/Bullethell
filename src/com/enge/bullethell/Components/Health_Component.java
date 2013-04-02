@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Health_Component {
+import com.artemis.Component;
+
+public class Health_Component extends Component {
 
 }

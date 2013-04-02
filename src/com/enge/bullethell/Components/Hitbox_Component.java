@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Hitbox_Component {
+import com.artemis.Component;
+
+public class Hitbox_Component extends Component {
 
 }

@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Position_Component {
+import com.artemis.Component;
+
+public class Position_Component extends Component {
 
 }

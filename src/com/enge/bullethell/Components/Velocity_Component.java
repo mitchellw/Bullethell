@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Velocity_Component {
+import com.artemis.Component;
+
+public class Velocity_Component extends Component {
 
 }
