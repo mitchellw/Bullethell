@@ -1,5 +1,8 @@
 package com.enge.bullethell.Components;
 
-public class Bullet_Component {
+import com.artemis.Component;
+
+public class Bullet_Component extends Component 
+{
 
 }

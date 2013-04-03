@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Owner_Component {
+import com.artemis.Component;
+
+public class Owner_Component extends Component {
 
 }

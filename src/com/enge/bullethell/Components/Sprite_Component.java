@@ -1,5 +1,7 @@
 package com.enge.bullethell.Components;
 
-public class Sprite_Component {
+import com.artemis.Component;
+
+public class Sprite_Component extends Component {
 
 }
