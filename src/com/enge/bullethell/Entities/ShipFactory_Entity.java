@@ -10,28 +10,15 @@ import com.enge.bullethell.Components.Velocity_Component;
 
 public class ShipFactory_Entity 
 {
-	public static Entity createPlayerShip(World world)
+	public static void createShip(World world)
     {
-            Entity player = world.createEntity();
-            player.addComponent(new Bullet_Component());
-            player.addComponent(new Velocity_Component());
-            player.addComponent(new Position_Component());
-            player.addComponent(new Health_Component());
-            player.addComponent(new Hitbox_Component());
-
-            return player;
+        Entity player = world.createEntity();
+        player.addComponent(new Bullet_Component());
+        player.addComponent(new Velocity_Component());
+        player.addComponent(new Position_Component());
+        player.addComponent(new Health_Component());
+        player.addComponent(new Hitbox_Component());
+        
+		world.addEntity(player);
     }
-	
-	public static Entity createEnemyShip(World world)
-    {
-            Entity enemy = world.createEntity();
-            enemy.addComponent(new Bullet_Component());
-            enemy.addComponent(new Velocity_Component());
-            enemy.addComponent(new Position_Component());
-            enemy.addComponent(new Health_Component());
-            enemy.addComponent(new Hitbox_Component());
-
-            return enemy;
-    }
-	
 }
