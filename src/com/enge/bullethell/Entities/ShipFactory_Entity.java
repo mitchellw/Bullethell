@@ -12,13 +12,13 @@ public class ShipFactory_Entity
 {
 	public static void createShip(World world)
     {
-        Entity player = world.createEntity();
-        player.addComponent(new Bullet_Component());
-        player.addComponent(new Velocity_Component());
-        player.addComponent(new Position_Component());
-        player.addComponent(new Health_Component());
-        player.addComponent(new Hitbox_Component());
+        Entity ship = world.createEntity();
+        ship.addComponent(new Bullet_Component());
+        ship.addComponent(new Velocity_Component());
+        ship.addComponent(new Position_Component());
+        ship.addComponent(new Health_Component());
+        ship.addComponent(new Hitbox_Component());
         
-		world.addEntity(player);
+		world.addEntity(ship);
     }
 }
