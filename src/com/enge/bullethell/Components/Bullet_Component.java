@@ -12,6 +12,7 @@ public class Bullet_Component extends Component
 {
 	public int weaponType;
 	
+<<<<<<< HEAD
 	/**
 	 * Empty constructor for the class.
 	 */
@@ -27,5 +28,13 @@ public class Bullet_Component extends Component
 	public Bullet_Component(int weaponType)
 	{
 		this.weaponType = weaponType;
+=======
+	public Bullet_Component() {
+		this.weaponType = 0;
+	}
+	
+	public Bullet_Component(int bulletType) {
+		this.weaponType = bulletType;
+>>>>>>> 4790f0d6f01b66541186a13b698518ced23a5e74
 	}
 }

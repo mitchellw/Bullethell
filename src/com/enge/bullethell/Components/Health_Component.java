@@ -11,6 +11,7 @@ public class Health_Component extends Component {
 
 	public int health;
 	
+<<<<<<< HEAD
 	/**
 	 * Empty constructor for the class.
 	 */
@@ -25,6 +26,13 @@ public class Health_Component extends Component {
 	 */
 	public Health_Component(int health)
 	{
+=======
+	public Health_Component() {
+		this.health = 1;
+	}
+	
+	public Health_Component(int health) {
+>>>>>>> 4790f0d6f01b66541186a13b698518ced23a5e74
 		this.health = health;
 	}
 }

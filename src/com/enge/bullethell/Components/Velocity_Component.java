@@ -4,16 +4,16 @@ import com.artemis.Component;
 
 public class Velocity_Component extends Component 
 {
-	public int velocity;
+	public float velocity;
 	
 	public Velocity_Component()
 	{
 		
 	}
 	
-	public Velocity_Component(int velocity)
+	public Velocity_Component(float velocity)
 	{
 		this.velocity = velocity;
 	}
-	
+
 }
