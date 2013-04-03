@@ -8,6 +8,7 @@ public class Velocity_Component extends Component
 	
 	public Velocity_Component()
 	{
+		
 	}
 	
 	public Velocity_Component(int velocity)
