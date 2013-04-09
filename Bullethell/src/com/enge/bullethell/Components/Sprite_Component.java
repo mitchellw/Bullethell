@@ -3,15 +3,15 @@ package com.enge.bullethell.Components;
 import com.artemis.Component;
 
 public class Sprite_Component extends Component {
-	public int ID;
+	public String fileName;
 	
 	public Sprite_Component()
 	{
 		//Empty
 	}
 	
-	public Sprite_Component(int ID)
+	public Sprite_Component(String fileName)
 	{
-		this.ID = ID;
+		this.fileName = fileName;
 	}
 }

@@ -10,7 +10,7 @@ import com.enge.bullethell.Components.Velocity_Component;
 
 public class BulletFactory_Entity {
 
-	public static void createBullet(World world, float velocity, Vector2 position, int width, int height, int bulletType)
+	public static void createBullet(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType)
 	{
 		Entity bullet = world.createEntity();
 		bullet.addComponent(new Velocity_Component(velocity));

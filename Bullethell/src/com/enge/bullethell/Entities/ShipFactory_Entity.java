@@ -11,7 +11,7 @@ import com.enge.bullethell.Components.Velocity_Component;
 
 public class ShipFactory_Entity
 {
-	public static void createShip(World world, float velocity, Vector2 position, int width, int height, int bulletType, int health)
+	public static void createShip(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType, int health)
     {
         Entity ship = world.createEntity();
         ship.addComponent(new Velocity_Component(velocity));
