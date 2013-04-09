@@ -1,19 +1,24 @@
 package com.enge.bullethell.Components;
 
 import com.artemis.Component;
+import com.enge.bullethell.Vector2;
 
 public class Velocity_Component extends Component 
 {
-	public float velocity;
+	public Vector2 velocity;
 	
 	public Velocity_Component()
 	{
-		
+		//Empty
 	}
 	
-	public Velocity_Component(float velocity)
+	public Velocity_Component(Vector2 vector) {
+		this.velocity = vector;
+	}
+	
+	public Velocity_Component(float vX, float vY)
 	{
-		this.velocity = velocity;
+		this.velocity = new Vector2(vX, vY);
 	}
 
 }
