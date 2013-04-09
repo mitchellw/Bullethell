@@ -9,7 +9,7 @@ import com.enge.bullethell.Components.Hitbox_Component;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
-public class ShipFactory_Entity 
+public class ShipFactory_Entity
 {
 	public static void createShip(World world, float velocity, Vector2 position, int width, int height, int bulletType, int health)
     {
