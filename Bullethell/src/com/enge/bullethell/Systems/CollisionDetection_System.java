@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.World;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.enge.bullethell.Vector2;
@@ -28,16 +29,18 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Bullet_Component> bulletM;
 	@Mapper ComponentMapper<Owner_Component> ownerM;
 	@Mapper ComponentMapper<Health_Component> healthM;
+	private World world;
 	
 	/**
 	 * Constructor for the class.
 	 * @param aspect aspect
 	 */
     @SuppressWarnings("unchecked")
-	public CollisionDetection_System(Aspect aspect) {
+	public CollisionDetection_System(Aspect aspect, World world) {
         super(Aspect.getAspectForAll(Position_Component.class,
         		Hitbox_Component.class, Owner_Component.class,
         		Health_Component.class));
+        this.world = world;
     }
 
     /**
@@ -117,8 +120,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entity).health -= 5;
         				if (healthM.get(entity).health <= 0)
         				{
+        					world.deleteEntity(entity);
         					entities.remove(entity);
         				}
+        				world.deleteEntity(entities.get(i));
         				entities.remove(i);
         			}
         			
@@ -130,9 +135,11 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				if (healthM.get(entity).health <= 0)
         				{
         					//End the game
+        					world.deleteEntity(entity);
         					entities.remove(entity);
         					break;
         				}
+        				world.deleteEntity(entities.get(i));
         				entities.remove(i);
         			}
         		}
@@ -155,9 +162,11 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
         					//End the game
+        					world.deleteEntity(entities.get(i));
         					entities.remove(i);
         					break;
         				}
+        				world.deleteEntity(entity);
         				entities.remove(entity);
         			}
         			
@@ -168,8 +177,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entities.get(i)).health -= 5;
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
+        					world.deleteEntity(entities.get(i));
         					entities.remove(entities.get(i));
         				}
+        				world.deleteEntity(entity);
         				entities.remove(entity);
         			}
         		}
@@ -188,12 +199,14 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entity).health -= 1;
         				if (healthM.get(entity).health <= 0)
         				{
+        					world.deleteEntity(entity);
         					entities.remove(entity);
         				}
         				healthM.get(entities.get(i)).health -= 1;
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
         					//End the game?
+        					world.deleteEntity(entities.get(i));
         					entities.remove(entities.get(i));
         					break;
         				}
@@ -205,6 +218,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				if (healthM.get(entity).health <= 0)
         				{
         					//End the game?
+        					world.deleteEntity(entity);
         					entities.remove(entity);
         					break;
         				}
@@ -212,6 +226,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
         					//End the game?
+        					world.deleteEntity(entities.get(i));
         					entities.remove(entities.get(i));
         				}
         			}
