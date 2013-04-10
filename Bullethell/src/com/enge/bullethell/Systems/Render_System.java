@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
@@ -21,6 +22,7 @@ public class Render_System extends EntityProcessingSystem{
 	@Mapper ComponentMapper<Sprite_Component> spriteM;
 	
 	private SpriteBatch batch;
+	private TextureAtlas atlas;
 	private AssetManager assetManager;
 	private OrthographicCamera camera;
 
@@ -37,13 +39,19 @@ public class Render_System extends EntityProcessingSystem{
     
     @Override
     protected void initialize() {
-    	// TODO: make actual atlas
-    	assetManager.load("enemy.png", Sprite.class);
+    	assetManager.load("sprites.atlas", TextureAtlas.class);
+    }
+    
+    @Override
+    protected void end() {
+    	batch.end();
     }
     
     @Override
     protected void begin() {
-    	// TODO: Check that atlas is loaded
+        if (atlas == null) {
+        	atlas = assetManager.get("sprites.atlas", TextureAtlas.class);
+        }
     	
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -57,11 +65,22 @@ public class Render_System extends EntityProcessingSystem{
     protected void process(Entity entity) {
         // TODO: mul position by density.
     	Vector2 position = positionM.get(entity).position;
-    	
-    	assetManager.get("enemy.png");
+    	drawSprite(spriteM.get(entity), position);
     }
     
-    private void drawSprite(String fileName, Vector2 position) {
+    private void drawSprite(Sprite_Component sprite, Vector2 position) {
+    	String name = sprite.fileName;
+    	TextureAtlas.AtlasRegion region = atlas.findRegion(name);
+    	if (region == null) {
+    		throw new RuntimeException("Couldn't find " + name);
+    	}
     	
+    	batch.draw(region, position.x - region.getRegionWidth() / 2,
+    			position.y - region.getRegionHeight() / 2);
+    }
+    
+    @Override
+    protected boolean checkProcessing() {
+    	return assetManager.update();
     }
 }
