@@ -177,7 +177,44 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         		//If both are ships
         		else if (!bulletM.has(entity) && !bulletM.has(entities.get(i)))
         		{
-        			
+        			if (ownerM.get(entity).owner == 1 && ownerM.get(entities.get(i)).owner 
+        					== 1)
+        			{
+        				//Do nothing; we don't care if enemy ships interact
+        			}
+        			else if (ownerM.get(entity).owner == 1 && ownerM.get(entities.get(i)).owner 
+        					== 0)
+        			{
+        				healthM.get(entity).health -= 1;
+        				if (healthM.get(entity).health <= 0)
+        				{
+        					entities.remove(entity);
+        				}
+        				healthM.get(entities.get(i)).health -= 1;
+        				if (healthM.get(entities.get(i)).health <= 0)
+        				{
+        					//End the game?
+        					entities.remove(entities.get(i));
+        					break;
+        				}
+        			}
+        			else if (ownerM.get(entity).owner == 0 && ownerM.get(entities.get(i)).owner 
+        					== 1)
+        			{
+        				healthM.get(entity).health -= 1;
+        				if (healthM.get(entity).health <= 0)
+        				{
+        					//End the game?
+        					entities.remove(entity);
+        					break;
+        				}
+        				healthM.get(entities.get(i)).health -= 1;
+        				if (healthM.get(entities.get(i)).health <= 0)
+        				{
+        					//End the game?
+        					entities.remove(entities.get(i));
+        				}
+        			}
         		}
         	}
         }
