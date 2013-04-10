@@ -19,6 +19,7 @@ import com.enge.bullethell.Components.Sprite_Component;
 
 //components: sprite, position, owner (?)
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class Render_System extends EntityProcessingSystem
 {
 	private ArrayList<Entity> entities;
@@ -26,6 +27,8 @@ public class Render_System extends EntityProcessingSystem
     public Render_System(Aspect aspect) {
         super(aspect);
 =======
+=======
+>>>>>>> 1e3e09ecf40c0ce23eb521b9213bb382c0f17b04
 public class Render_System extends EntityProcessingSystem{
 	@Mapper ComponentMapper<Position_Component> positionM;
 	@Mapper ComponentMapper<Sprite_Component> spriteM;
@@ -61,6 +64,9 @@ public class Render_System extends EntityProcessingSystem{
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+<<<<<<< HEAD
+>>>>>>> 1e3e09ecf40c0ce23eb521b9213bb382c0f17b04
+=======
 >>>>>>> 1e3e09ecf40c0ce23eb521b9213bb382c0f17b04
     }
 
@@ -74,6 +80,7 @@ public class Render_System extends EntityProcessingSystem{
     
     private void drawSprite(String fileName, Vector2 position) {
     	
+<<<<<<< HEAD
     }
     
     @Override
@@ -84,5 +91,7 @@ public class Render_System extends EntityProcessingSystem{
     @Override
     protected void removed(Entity entity) {
     	entities.remove(entity);
+=======
+>>>>>>> 1e3e09ecf40c0ce23eb521b9213bb382c0f17b04
     }
 }
