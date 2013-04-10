@@ -28,6 +28,7 @@ public class Movement_System extends EntityProcessingSystem{
         Vector2 velocity = velocityM.get(entity).velocity;
         		
         position = position.add(velocity);
+        positionM.get(entity).position = position;
     }
 
     
