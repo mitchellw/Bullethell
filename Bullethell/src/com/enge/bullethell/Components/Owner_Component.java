@@ -3,7 +3,7 @@ package com.enge.bullethell.Components;
 import com.artemis.Component;
 
 /**
- * The component that will determine who the owner of the entity is.
+ * The component that will determine who the owner of the entity is. 1 is player, 0 is enemy
  * @author SFenton
  * @version 2013.04.03
  */
