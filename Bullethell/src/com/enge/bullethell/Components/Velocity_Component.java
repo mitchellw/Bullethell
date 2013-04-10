@@ -9,7 +9,7 @@ public class Velocity_Component extends Component
 	
 	public Velocity_Component()
 	{
-		//Empty
+		velocity = Vector2.Zero;
 	}
 	
 	public Velocity_Component(Vector2 vector) {

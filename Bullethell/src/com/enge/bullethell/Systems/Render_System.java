@@ -1,7 +1,5 @@
 package com.enge.bullethell.Systems;
 
-import java.util.ArrayList;
-
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -11,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.enge.bullethell.Vector2;
@@ -56,6 +53,8 @@ public class Render_System extends EntityProcessingSystem
     
     @Override
     protected void begin() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        
         if (atlas == null) {
         	atlas = assetManager.get("sprites.atlas", TextureAtlas.class);
         }
@@ -89,5 +88,21 @@ public class Render_System extends EntityProcessingSystem
     @Override
     protected boolean checkProcessing() {
     	return assetManager.update();
+    }
+    
+    public void resize(int width, int height) {
+    	// TODO: Multiply by density
+        int gameWidth = (int) (800);
+        int gameHeight = (int) (480);
+
+        if (gameHeight * width < gameWidth * height) {
+            float adjustedHeight = gameWidth * (height/(float) width);
+            camera.setToOrtho(false, gameWidth, adjustedHeight);
+            camera.translate(0, -Math.abs((gameHeight - adjustedHeight) / 2));
+        } else {
+            float adjustedWidth = gameHeight * (width/(float) height);
+            camera.setToOrtho(false, adjustedWidth, gameHeight);
+            camera.translate(-Math.abs((gameWidth - adjustedWidth)/2),0);
+        }
     }
 }

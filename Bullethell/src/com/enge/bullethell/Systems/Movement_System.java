@@ -18,7 +18,7 @@ public class Movement_System extends EntityProcessingSystem{
 	
 
     @SuppressWarnings("unchecked")
-	public Movement_System(Aspect aspect) {
+	public Movement_System() {
         super(Aspect.getAspectForAll(Position_Component.class, Velocity_Component.class));
     }
     

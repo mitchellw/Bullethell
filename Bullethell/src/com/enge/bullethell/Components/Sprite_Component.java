@@ -5,11 +5,6 @@ import com.artemis.Component;
 public class Sprite_Component extends Component {
 	public String fileName;
 	
-	public Sprite_Component()
-	{
-		//Empty
-	}
-	
 	public Sprite_Component(String fileName)
 	{
 		this.fileName = fileName;

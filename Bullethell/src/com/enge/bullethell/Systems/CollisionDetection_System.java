@@ -36,7 +36,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 	 * @param aspect aspect
 	 */
     @SuppressWarnings("unchecked")
-	public CollisionDetection_System(Aspect aspect, World world) {
+	public CollisionDetection_System(World world) {
         super(Aspect.getAspectForAll(Position_Component.class,
         		Hitbox_Component.class, Owner_Component.class,
         		Health_Component.class));
