@@ -17,7 +17,13 @@ import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
 
-public class Render_System extends EntityProcessingSystem{
+/**
+ * This is the rendering system; it takes care of actually drawing on the application.
+ * @author Wilson
+ * @version 10.04.2013
+ */
+public class Render_System extends EntityProcessingSystem
+{
 	@Mapper ComponentMapper<Position_Component> positionM;
 	@Mapper ComponentMapper<Sprite_Component> spriteM;
 	
