@@ -9,6 +9,14 @@ import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
+/**
+ * This system takes the position and velocity of an entity, and finds
+ * the new position.
+ * @author Tyler, Wilson
+ * @version 2013.04.05
+ *
+ */
+
 //components: position, velocity
 public class Movement_System extends EntityProcessingSystem{
 	
