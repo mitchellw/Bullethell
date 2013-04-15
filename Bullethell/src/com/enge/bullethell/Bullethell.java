@@ -23,6 +23,7 @@ public class Bullethell implements ApplicationListener {
 	private OrthographicCamera camera;
 	private World world;
 	private Render_System renderSystem;
+	public static int score = 0;
 	
 	@Override
 	public void create() {
@@ -36,8 +37,10 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new CollisionDetection_System(world));
 		world.setSystem(new Movement_System());
 		
-		Entity ship = ShipFactory_Entity.createShip(world, new Vector2(0, 0), new Vector2(40, 40), "player", 64, 64, 0, 1);
-		Entity enemy = ShipFactory_Entity.createShip(world, new Vector2(0, -1), new Vector2(100, 100), "enemy", 64, 64, 0, 1);
+		Entity ship = ShipFactory_Entity.createShip(world, new Vector2(0, 0), 
+				new Vector2(40, 40), "player", 64, 64, 0, 1, 100);
+		Entity enemy = ShipFactory_Entity.createShip(world, new Vector2(0, -1), 
+				new Vector2(100, 100), "enemy", 64, 64, 0, 1, 100);
 		
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem());
