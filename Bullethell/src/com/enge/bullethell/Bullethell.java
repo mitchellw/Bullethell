@@ -15,6 +15,7 @@ import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 import com.enge.bullethell.Systems.CollisionDetection_System;
+import com.enge.bullethell.Systems.InputSystem;
 import com.enge.bullethell.Systems.Movement_System;
 import com.enge.bullethell.Systems.Render_System;
 
@@ -39,6 +40,7 @@ public class Bullethell implements ApplicationListener {
 		Entity enemy = ShipFactory_Entity.createShip(world, new Vector2(0, -1), new Vector2(100, 100), "enemy", 64, 64, 0, 1);
 		
 		world.initialize();
+		Gdx.input.setInputProcessor(new InputSystem());
 	}
 
 	@Override
