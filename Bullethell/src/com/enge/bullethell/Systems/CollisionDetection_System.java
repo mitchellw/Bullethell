@@ -8,12 +8,14 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
 import com.enge.bullethell.Components.Health_Component;
 import com.enge.bullethell.Components.Hitbox_Component;
 import com.enge.bullethell.Components.Owner_Component;
 import com.enge.bullethell.Components.Position_Component;
+import com.enge.bullethell.Components.Score_Component;
 
 /**
  * System that determines whether two entities are intersecting and 
@@ -29,6 +31,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Bullet_Component> bulletM;
 	@Mapper ComponentMapper<Owner_Component> ownerM;
 	@Mapper ComponentMapper<Health_Component> healthM;
+	@Mapper ComponentMapper<Score_Component> scoreM;
 	private World world;
 	
 	/**
@@ -120,6 +123,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entity).health -= 5;
         				if (healthM.get(entity).health <= 0)
         				{
+        					Bullethell.score += scoreM.get(entity).score;
         					world.deleteEntity(entity);
         					entities.remove(entity);
         				}
@@ -177,6 +181,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entities.get(i)).health -= 5;
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
+        					Bullethell.score += scoreM.get(entities.get(i)).score;
         					world.deleteEntity(entities.get(i));
         					entities.remove(entities.get(i));
         				}
@@ -199,6 +204,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				healthM.get(entity).health -= 1;
         				if (healthM.get(entity).health <= 0)
         				{
+        					Bullethell.score += scoreM.get(entity).score;
         					world.deleteEntity(entity);
         					entities.remove(entity);
         				}
@@ -226,6 +232,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         				if (healthM.get(entities.get(i)).health <= 0)
         				{
         					//End the game?
+        					Bullethell.score += scoreM.get(entities.get(i)).score;
         					world.deleteEntity(entities.get(i));
         					entities.remove(entities.get(i));
         				}
