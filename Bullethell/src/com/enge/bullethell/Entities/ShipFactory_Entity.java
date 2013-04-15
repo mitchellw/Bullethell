@@ -17,7 +17,7 @@ public class ShipFactory_Entity
     {
         Entity ship = world.createEntity();
         ship.addComponent(new Sprite_Component(spriteName));
-        ship.addComponent(new Velocity_Component());
+        ship.addComponent(new Velocity_Component(velocity));
         ship.addComponent(new Position_Component(position));
         ship.addComponent(new Hitbox_Component(width, height));
         ship.addComponent(new Bullet_Component(bulletType));

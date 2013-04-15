@@ -92,8 +92,8 @@ public class Render_System extends EntityProcessingSystem
     
     public void resize(int width, int height) {
     	// TODO: Multiply by density
-        int gameWidth = (int) (800);
-        int gameHeight = (int) (480);
+        int gameWidth = (int) (480);
+        int gameHeight = (int) (800);
 
         if (gameHeight * width < gameWidth * height) {
             float adjustedHeight = gameWidth * (height/(float) width);

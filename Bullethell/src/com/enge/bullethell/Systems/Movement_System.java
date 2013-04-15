@@ -10,7 +10,7 @@ import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
 //components: position, velocity
-public class Movement_System extends EntityProcessingSystem{
+public class Movement_System extends EntityProcessingSystem {
 	
 	@Mapper ComponentMapper<Position_Component> positionM;
 	@Mapper ComponentMapper<Velocity_Component> velocityM;
@@ -26,9 +26,8 @@ public class Movement_System extends EntityProcessingSystem{
     {
         Vector2 position = positionM.get(entity).position;
         Vector2 velocity = velocityM.get(entity).velocity;
-        		
-        position = position.add(velocity);
-        positionM.get(entity).position = position;
+        
+        positionM.get(entity).position = position.add(velocity);
     }
 
     
