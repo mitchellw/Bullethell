@@ -41,8 +41,8 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     @SuppressWarnings("unchecked")
 	public CollisionDetection_System(World world) {
         super(Aspect.getAspectForAll(Position_Component.class,
-        		Hitbox_Component.class, Owner_Component.class,
-        		Health_Component.class));
+        		Hitbox_Component.class, Owner_Component.class));
+        		//.getAspectForOne(Health_Component.class, Score_Component.class));
         this.world = world;
         entities = new ArrayList<Entity>();
     }

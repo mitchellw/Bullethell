@@ -47,7 +47,7 @@ public class Bullethell implements ApplicationListener {
 		
 		
 		world.initialize();
-		Gdx.input.setInputProcessor(new InputSystem(camera));
+		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}
 
 	@Override
