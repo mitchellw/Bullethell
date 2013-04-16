@@ -86,13 +86,13 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         	{
         		System.out.println("In");
         		//If both are bullets, let them pass
-        		if (bulletM.has(entity) && bulletM.has(entities.get(i)))
+        		if (!scoreM.has(entity) && !scoreM.has(entities.get(i)))
         		{
         			//Do nothing it's fine
         		}
         		
         		//If one is a bullet and the other is not, cases
-        		else if (!bulletM.has(entity) && bulletM.has(entities.get(i)))
+        		else if (scoreM.has(entity) && !scoreM.has(entities.get(i)))
         		{
         			//If the ship is enemy and the bullet is enemy, do nothing
         			if (ownerM.get(entity).owner == 0 &&
@@ -134,7 +134,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         		}
         		
         		//Now reverse it
-        		else if (bulletM.has(entity) && !bulletM.has(entities.get(i)))
+        		else if (!scoreM.has(entity) && scoreM.has(entities.get(i)))
         		{
         			//If the bullet is enemy and the ship is enemy, do nothing
         			if (ownerM.get(entity).owner == 0 &&
@@ -176,7 +176,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         		}
         		
         		//If both are ships
-        		else if (!bulletM.has(entity) && !bulletM.has(entities.get(i)))
+        		else if (scoreM.has(entity) && scoreM.has(entities.get(i)))
         		{
         			if (ownerM.get(entity).owner == 1 && ownerM.get(entities.get(i)).owner 
         					== 1)
