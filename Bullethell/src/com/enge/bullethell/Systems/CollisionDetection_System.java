@@ -64,30 +64,13 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     	Vector2 topLeft2 = positionM.get(entity2).position.add(-width2 / 2, height2 / 2);
     	Vector2 topRight1 = topLeft1.add(width1, 0);
     	Vector2 topRight2 = topLeft2.add(width2, 0);
-    	Vector2 botRight1 = topRight1.sub(0, height1);
-    	Vector2 botRight2 = topRight2.sub(0, height2);
     	Vector2 botLeft1 = topLeft1.sub(0, height1);
     	Vector2 botLeft2 = topLeft2.sub(0, height2);
     	
-    	
-    	
-    	if (topLeft1.x < botRight2.x && topLeft1.y > botRight2.y)
-    	{
+    	if (topLeft1.x < topRight2.x && topRight1.x > topLeft2.x &&
+    		botLeft1.y < topLeft2.y && topLeft1.y > botLeft2.y) {
     		return true;
     	}
-    	if (botRight1.x > topLeft2.x && botRight1.y < topLeft2.y)
-    	{
-    		return true;
-    	}
-    	if (topRight1.x > botLeft2.x && topRight1.y > botLeft2.y)
-    	{
-    		return true;
-    	}
-    	if (botLeft1.x < topRight2.x && botLeft1.y < topRight2.y)
-    	{
-    		return true;
-    	}
-    	
     	return false;
     }
     
