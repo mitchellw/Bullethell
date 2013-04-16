@@ -44,6 +44,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         		Hitbox_Component.class, Owner_Component.class,
         		Health_Component.class));
         this.world = world;
+        entities = new ArrayList<Entity>();
     }
 
     /**
@@ -59,30 +60,30 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     	int width2 = hitboxM.get(entity2).width;
     	int height2 = hitboxM.get(entity2).height;
     	
-    	Vector2 topLeft1 = positionM.get(entity1).position.sub(width1 / 2, height1 / 2);
-    	Vector2 topLeft2 = positionM.get(entity2).position.sub(width2 / 2, height2 / 2);
+    	Vector2 topLeft1 = positionM.get(entity1).position.add(-width1 / 2, height1 / 2);
+    	Vector2 topLeft2 = positionM.get(entity2).position.add(-width2 / 2, height2 / 2);
     	Vector2 topRight1 = topLeft1.add(width1, 0);
     	Vector2 topRight2 = topLeft2.add(width2, 0);
-    	Vector2 botRight1 = topRight1.add(0, height1);
-    	Vector2 botRight2 = topRight2.add(0, height2);
-    	Vector2 botLeft1 = topLeft1.add(0, height1);
-    	Vector2 botLeft2 = topLeft2.add(0, height2);
+    	Vector2 botRight1 = topRight1.sub(0, height1);
+    	Vector2 botRight2 = topRight2.sub(0, height2);
+    	Vector2 botLeft1 = topLeft1.sub(0, height1);
+    	Vector2 botLeft2 = topLeft2.sub(0, height2);
     	
     	
     	
-    	if (topLeft1.x < botRight2.x && topLeft1.y < botRight2.y)
+    	if (topLeft1.x < botRight2.x && topLeft1.y > botRight2.y)
     	{
     		return true;
     	}
-    	if (botRight1.x > topLeft2.x && botRight1.y > topLeft2.y)
+    	if (botRight1.x > topLeft2.x && botRight1.y < topLeft2.y)
     	{
     		return true;
     	}
-    	if (topRight1.x > botLeft2.x && topRight1.y < botLeft2.y)
+    	if (topRight1.x > botLeft2.x && topRight1.y > botLeft2.y)
     	{
     		return true;
     	}
-    	if (botLeft1.x < topRight2.x && botLeft1.y > topRight2.y)
+    	if (botLeft1.x < topRight2.x && botLeft1.y < topRight2.y)
     	{
     		return true;
     	}
@@ -98,8 +99,9 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     protected void process(Entity entity) {
         for (int i = 0; i < entities.size(); i++)
         {
-        	if (isIntersecting(entities.get(i), entity))
+        	if (entity != entities.get(i) && isIntersecting(entities.get(i), entity))
         	{
+        		System.out.println("In");
         		//If both are bullets, let them pass
         		if (bulletM.has(entity) && bulletM.has(entities.get(i)))
         		{

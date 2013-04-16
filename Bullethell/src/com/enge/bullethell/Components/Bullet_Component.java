@@ -13,14 +13,6 @@ public class Bullet_Component extends Component
 	public int weaponType;
 	
 	/**
-	 * Empty constructor for the class.
-	 */
-	public Bullet_Component()
-	{
-		//Empty
-	}
-	
-	/**
 	 * Constructor that takes a weapon type.
 	 * @param weaponType The type of weapon.
 	 */

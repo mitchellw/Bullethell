@@ -7,11 +7,6 @@ public class Position_Component extends Component
 {
 	public Vector2 position;
 	
-	public Position_Component()
-	{
-		//Empty
-	}
-	
 	public Position_Component(Vector2 vector) {
 		this.position = vector;
 	}

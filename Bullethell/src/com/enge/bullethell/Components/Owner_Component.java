@@ -12,14 +12,6 @@ public class Owner_Component extends Component
 	public int owner;
 	
 	/**
-	 * Empty constructor for the class.
-	 */
-	public Owner_Component()
-	{
-		//Empty
-	}
-	
-	/**
 	 * Sets the owner in the constructor.
 	 * @param owner The owner of the component.
 	 */

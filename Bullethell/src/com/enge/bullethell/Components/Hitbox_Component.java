@@ -14,14 +14,6 @@ public class Hitbox_Component extends Component {
 	public int height;
 	
 	/**
-	 * Empty constructor for the class.
-	 */
-	public Hitbox_Component()
-	{
-		//Empty
-	}
-	
-	/**
 	 * Constructor that takes the width and the height.
 	 * @param width The width of the hitbox.
 	 * @param height The height of the hitbox.

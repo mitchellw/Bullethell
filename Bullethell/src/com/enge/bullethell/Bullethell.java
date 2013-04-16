@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.enge.bullethell.Components.Health_Component;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
@@ -26,6 +27,8 @@ public class Bullethell implements ApplicationListener {
 	public static int score = 0;
 	public static Entity player;
 	
+	private Entity enemy; 
+	
 	@Override
 	public void create() {
 		world = new World();
@@ -38,13 +41,13 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new CollisionDetection_System(world));
 		world.setSystem(new Movement_System());
 		
-		player = ShipFactory_Entity.createShip(world, new Vector2(0, 0), 
-				new Vector2(40, 40), "player", 64, 64, 0, 1, 100);
-		Entity enemy = ShipFactory_Entity.createShip(world, new Vector2(0, -1), 
-				new Vector2(100, 100), "enemy", 64, 64, 0, 1, 100);
+		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
+		enemy = ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
+		
+		
 		
 		world.initialize();
-		Gdx.input.setInputProcessor(new InputSystem());
+		Gdx.input.setInputProcessor(new InputSystem(camera));
 	}
 
 	@Override
