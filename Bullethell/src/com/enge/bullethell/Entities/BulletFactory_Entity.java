@@ -15,7 +15,7 @@ public class BulletFactory_Entity {
 	public static Entity createBullet(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType, int owner)
 	{
 		Entity bullet = world.createEntity();
-		bullet.addComponent(new Velocity_Component());
+		bullet.addComponent(new Velocity_Component(velocity));
 		bullet.addComponent(new Position_Component(position));
 		bullet.addComponent(new Hitbox_Component(width, height));
 		if (bulletType == 0) {
