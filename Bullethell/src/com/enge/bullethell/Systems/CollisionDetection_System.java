@@ -86,12 +86,12 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     	int halfWidth = hitboxM.get(hitboxEntity).width / 2;
     	int halfHeight = hitboxM.get(hitboxEntity).height / 2;
     	
-    	if (pointPosition.y < hitboxPosition.y + halfHeight && pointPosition.y > hitboxPosition.y - halfHeight
-    			&& pointPosition.x < hitboxPosition.x + halfWidth && pointPosition.x > hitboxPosition.x - halfWidth) {
-    		return true;
+    	if (pointPosition.y > hitboxPosition.y + halfHeight || pointPosition.y < hitboxPosition.y - halfHeight
+    			|| pointPosition.x > hitboxPosition.x + halfWidth || pointPosition.x < hitboxPosition.x - halfWidth) {
+    		return false;
     	}
     	
-		return false;
+		return true;
     }
 
     /**
@@ -100,7 +100,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
      */
     @Override
     protected void process(Entity e) {
-    	if (System.currentTimeMillis() - lastUpdated > 250) {
+    	if (System.currentTimeMillis() - lastUpdated > 150) {
     		lastUpdated = System.currentTimeMillis();
     		
     		Entity entity;
@@ -108,8 +108,9 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 
     		for (int i = 0; i < entities.size(); i++) {
     			entity = entities.get(i);
+    			boolean isShip = scoreM.has(entity);
 
-    			for (int j = 0; j < entities.size(); j++)
+    			for (int j = i+1; j < entities.size(); j++)
     			{
     				secondEntity = entities.get(j);
     				if (entity != secondEntity)
@@ -123,7 +124,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     					//}
 
     					//If one is a bullet and the other is not, cases
-    					if (scoreM.has(entity) && !scoreM.has(secondEntity))
+    					if (isShip && !scoreM.has(secondEntity))
     					{
     						if (isInHitbox(secondEntity, entity)) {
     							//If the ship is enemy and the bullet is enemy, do nothing
@@ -165,7 +166,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     					}
 
     					//Now reverse it
-    					else if (!scoreM.has(entity) && scoreM.has(secondEntity))
+    					else if (!isShip && scoreM.has(secondEntity))
     					{
     						if (isInHitbox(entity, secondEntity)) {
     							//If the bullet is enemy and the ship is enemy, do nothing
@@ -207,7 +208,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     					}
 
     					//If both are ships
-    					else if (scoreM.has(entity) && scoreM.has(secondEntity))
+    					else if (isShip && scoreM.has(secondEntity))
     					{
     						if (isIntersecting(entity, secondEntity)) {
     							//if (owner1 == 1 && owner2 == 1)

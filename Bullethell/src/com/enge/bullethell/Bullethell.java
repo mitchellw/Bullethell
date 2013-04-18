@@ -27,8 +27,6 @@ public class Bullethell implements ApplicationListener {
 	public static int score = 0;
 	public static Entity player;
 	
-	private Entity enemy; 
-	
 	@Override
 	public void create() {
 		world = new World();
@@ -42,7 +40,7 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new Movement_System());
 		
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
-		enemy = ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
+		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
 		
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));

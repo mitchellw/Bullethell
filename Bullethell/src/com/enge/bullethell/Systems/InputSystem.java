@@ -24,7 +24,7 @@ public class InputSystem extends InputAdapter {
 		Vector3 unprojectedPosition = new Vector3(screenX, screenY, 0);
 		camera.unproject(unprojectedPosition);
 		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
-		BulletFactory_Entity.createBullet(world, new Vector2(0, 2), Bullethell.player.getComponent(Position_Component.class).position,
+		BulletFactory_Entity.createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
 				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
 		
 		return true;
@@ -35,7 +35,7 @@ public class InputSystem extends InputAdapter {
 		Vector3 unprojectedPosition = new Vector3(screenX, screenY, 0);
 		camera.unproject(unprojectedPosition);
 		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
-		BulletFactory_Entity.createBullet(world, new Vector2(0, 2), Bullethell.player.getComponent(Position_Component.class).position,
+		BulletFactory_Entity.createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
 				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
 	
 		return true;
