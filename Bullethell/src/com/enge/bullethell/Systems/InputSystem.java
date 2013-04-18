@@ -25,9 +25,9 @@ public class InputSystem extends InputAdapter {
 		camera.unproject(unprojectedPosition);
 		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
 		BulletFactory_Entity.createBullet(world, new Vector2(0, 2), Bullethell.player.getComponent(Position_Component.class).position,
-				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 0);
+				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
 		
-		return super.touchDown(screenX, screenY, pointer, button);
+		return true;
 	}
 
 	@Override
@@ -35,18 +35,15 @@ public class InputSystem extends InputAdapter {
 		Vector3 unprojectedPosition = new Vector3(screenX, screenY, 0);
 		camera.unproject(unprojectedPosition);
 		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
+		BulletFactory_Entity.createBullet(world, new Vector2(0, 2), Bullethell.player.getComponent(Position_Component.class).position,
+				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
 	
-		return super.touchDragged(screenX, screenY, pointer);
+		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return super.touchUp(screenX, screenY, pointer, button);
-	}
-
-	public InputSystem() {
-		
 	}
 
 }

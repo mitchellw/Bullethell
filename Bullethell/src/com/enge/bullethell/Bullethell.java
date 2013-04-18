@@ -44,8 +44,6 @@ public class Bullethell implements ApplicationListener {
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
 		enemy = ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
 		
-		
-		
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}

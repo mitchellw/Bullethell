@@ -33,6 +33,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Health_Component> healthM;
 	@Mapper ComponentMapper<Score_Component> scoreM;
 	private World world;
+	private long lastUpdated;
 	
 	/**
 	 * Constructor for the class.
@@ -44,6 +45,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
         		Hitbox_Component.class, Owner_Component.class));
         		//.getAspectForOne(Health_Component.class, Score_Component.class));
         this.world = world;
+        lastUpdated = System.currentTimeMillis();
         entities = new ArrayList<Entity>();
     }
 
@@ -55,176 +57,207 @@ public class CollisionDetection_System extends EntityProcessingSystem {
      */
     public boolean isIntersecting(Entity entity1, Entity entity2)
     {
-    	int width1 = hitboxM.get(entity1).width;
-    	int height1 = hitboxM.get(entity1).height;
-    	int width2 = hitboxM.get(entity2).width;
-    	int height2 = hitboxM.get(entity2).height;
+    	int halfWidth1 = hitboxM.get(entity1).width / 2;
+    	int halfHeight1 = hitboxM.get(entity1).height / 2;
+    	int halfWidth2 = hitboxM.get(entity2).width / 2;
+    	int halfHeight2 = hitboxM.get(entity2).height / 2;
     	
-    	Vector2 topLeft1 = positionM.get(entity1).position.add(-width1 / 2, height1 / 2);
-    	Vector2 topLeft2 = positionM.get(entity2).position.add(-width2 / 2, height2 / 2);
-    	Vector2 topRight1 = topLeft1.add(width1, 0);
-    	Vector2 topRight2 = topLeft2.add(width2, 0);
-    	Vector2 botLeft1 = topLeft1.sub(0, height1);
-    	Vector2 botLeft2 = topLeft2.sub(0, height2);
+    	Vector2 position1 = positionM.get(entity2).position;
+    	Vector2 position2 = positionM.get(entity1).position;
     	
-    	if (topLeft1.x < topRight2.x && topRight1.x > topLeft2.x &&
-    		botLeft1.y < topLeft2.y && topLeft1.y > botLeft2.y) {
+    	if (position1.x - halfWidth1 < position2.x + halfWidth2 && position1.x + halfWidth1 > position2.x - halfWidth2 &&
+    		position1.y - halfHeight1 < position2.y + halfHeight2 && position1.y + halfHeight1 > position2.y - halfHeight2) {
     		return true;
     	}
     	return false;
     }
     
     /**
-     * Processes a given entity versus every other entity in the list.
-     * @param entity The entity to compare to the others.
+     * Compares two entities, one with a hitbox and one that is treated as a point
+     * and returns whether the point is in the hitbox.
+     * @param pointEntity The entity treated as a point.
+     * @param hitboxEntity The entity with the hitbox.
+     * @return Whether or not the pointEntity is inside the hitboxEntity.
+     */
+    public boolean isInHitbox(Entity pointEntity, Entity hitboxEntity) {
+    	Vector2 pointPosition = positionM.get(pointEntity).position;
+    	
+    	Vector2 hitboxPosition = positionM.get(hitboxEntity).position;
+    	int halfWidth = hitboxM.get(hitboxEntity).width / 2;
+    	int halfHeight = hitboxM.get(hitboxEntity).height / 2;
+    	
+    	if (pointPosition.y < hitboxPosition.y + halfHeight && pointPosition.y > hitboxPosition.y - halfHeight
+    			&& pointPosition.x < hitboxPosition.x + halfWidth && pointPosition.x > hitboxPosition.x - halfWidth) {
+    		return true;
+    	}
+    	
+		return false;
+    }
+
+    /**
+     * Processes all given entities versus every other entity in the list.
+     * @param e Unused.
      */
     @Override
-    protected void process(Entity entity) {
-        for (int i = 0; i < entities.size(); i++)
-        {
-        	if (entity != entities.get(i) && isIntersecting(entities.get(i), entity))
-        	{
-        		System.out.println("In");
-        		//If both are bullets, let them pass
-        		if (!scoreM.has(entity) && !scoreM.has(entities.get(i)))
-        		{
-        			//Do nothing it's fine
-        		}
-        		
-        		//If one is a bullet and the other is not, cases
-        		else if (scoreM.has(entity) && !scoreM.has(entities.get(i)))
-        		{
-        			//If the ship is enemy and the bullet is enemy, do nothing
-        			if (ownerM.get(entity).owner == 0 &&
-        					ownerM.get(entities.get(i)).owner == 0)
-        			{
-        				//Do nothing; enemy bullets should not affect enemies
-        			}
-        			
-        			//If the ship is enemy and the bullet is player, decrement enemy health
-        			else if (ownerM.get(entity).owner == 0 &&
-        					ownerM.get(entities.get(i)).owner == 1)
-        			{
-        				healthM.get(entity).health -= 5;
-        				if (healthM.get(entity).health <= 0)
-        				{
-        					Bullethell.score += scoreM.get(entity).score;
-        					world.deleteEntity(entity);
-        					entities.remove(entity);
-        				}
-        				world.deleteEntity(entities.get(i));
-        				entities.remove(i);
-        			}
-        			
-        			//If the ship is player and the bullet is enemy, decrement player health
-        			else
-        			{
-        				//Decrement by 5?  Why not
-        				healthM.get(entity).health -= 5;
-        				if (healthM.get(entity).health <= 0)
-        				{
-        					//End the game
-        					world.deleteEntity(entity);
-        					entities.remove(entity);
-        					break;
-        				}
-        				world.deleteEntity(entities.get(i));
-        				entities.remove(i);
-        			}
-        		}
-        		
-        		//Now reverse it
-        		else if (!scoreM.has(entity) && scoreM.has(entities.get(i)))
-        		{
-        			//If the bullet is enemy and the ship is enemy, do nothing
-        			if (ownerM.get(entity).owner == 0 &&
-        					ownerM.get(entities.get(i)).owner == 0)
-        			{
-        				//Do nothing; enemy bullets should not affect enemies
-        			}
-        			
-        			//If the bullet is enemy and the ship is friendly
-        			else if (ownerM.get(entity).owner == 0 &&
-        					ownerM.get(entities.get(i)).owner == 1)
-        			{
-        				healthM.get(entities.get(i)).health -= 5;
-        				if (healthM.get(entities.get(i)).health <= 0)
-        				{
-        					//End the game
-        					world.deleteEntity(entities.get(i));
-        					entities.remove(i);
-        					break;
-        				}
-        				world.deleteEntity(entity);
-        				entities.remove(entity);
-        			}
-        			
-        			//If the bullet is player and the ship is enemy, decrement
-        			else
-        			{
-        				//Decrement by 5?  Why not
-        				healthM.get(entities.get(i)).health -= 5;
-        				if (healthM.get(entities.get(i)).health <= 0)
-        				{
-        					Bullethell.score += scoreM.get(entities.get(i)).score;
-        					world.deleteEntity(entities.get(i));
-        					entities.remove(entities.get(i));
-        				}
-        				world.deleteEntity(entity);
-        				entities.remove(entity);
-        			}
-        		}
-        		
-        		//If both are ships
-        		else if (scoreM.has(entity) && scoreM.has(entities.get(i)))
-        		{
-        			if (ownerM.get(entity).owner == 1 && ownerM.get(entities.get(i)).owner 
-        					== 1)
-        			{
-        				//Do nothing; we don't care if enemy ships interact
-        			}
-        			else if (ownerM.get(entity).owner == 1 && ownerM.get(entities.get(i)).owner 
-        					== 0)
-        			{
-        				healthM.get(entity).health -= 1;
-        				if (healthM.get(entity).health <= 0)
-        				{
-        					Bullethell.score += scoreM.get(entity).score;
-        					world.deleteEntity(entity);
-        					entities.remove(entity);
-        				}
-        				healthM.get(entities.get(i)).health -= 1;
-        				if (healthM.get(entities.get(i)).health <= 0)
-        				{
-        					//End the game?
-        					world.deleteEntity(entities.get(i));
-        					entities.remove(entities.get(i));
-        					break;
-        				}
-        			}
-        			else if (ownerM.get(entity).owner == 0 && ownerM.get(entities.get(i)).owner 
-        					== 1)
-        			{
-        				healthM.get(entity).health -= 1;
-        				if (healthM.get(entity).health <= 0)
-        				{
-        					//End the game?
-        					world.deleteEntity(entity);
-        					entities.remove(entity);
-        					break;
-        				}
-        				healthM.get(entities.get(i)).health -= 1;
-        				if (healthM.get(entities.get(i)).health <= 0)
-        				{
-        					//End the game?
-        					Bullethell.score += scoreM.get(entities.get(i)).score;
-        					world.deleteEntity(entities.get(i));
-        					entities.remove(entities.get(i));
-        				}
-        			}
-        		}
-        	}
-        }
+    protected void process(Entity e) {
+    	if (System.currentTimeMillis() - lastUpdated > 250) {
+    		lastUpdated = System.currentTimeMillis();
+    		
+    		Entity entity;
+    		Entity secondEntity;
+
+    		for (int i = 0; i < entities.size(); i++) {
+    			entity = entities.get(i);
+
+    			for (int j = 0; j < entities.size(); j++)
+    			{
+    				secondEntity = entities.get(j);
+    				if (entity != secondEntity)
+    				{
+    					int owner1 = ownerM.get(entity).owner;
+    					int owner2 = ownerM.get(secondEntity).owner;
+    					//If both are bullets, let them pass
+    					//if (!scoreM.has(entity) && !scoreM.has(secondEntity))
+    					//{
+    					//Do nothing it's fine
+    					//}
+
+    					//If one is a bullet and the other is not, cases
+    					if (scoreM.has(entity) && !scoreM.has(secondEntity))
+    					{
+    						if (isInHitbox(secondEntity, entity)) {
+    							//If the ship is enemy and the bullet is enemy, do nothing
+    							//if (owner1 == 0 && owner2 == 0)
+    							//{
+    							//Do nothing; enemy bullets should not affect enemies
+    							//}
+
+    							//If the ship is enemy and the bullet is player, decrement enemy health
+    							if (owner1 == 0 && owner2 == 1)
+    							{
+    								healthM.get(entity).health -= 1;
+    								if (healthM.get(entity).health <= 0)
+    								{
+    									Bullethell.score += scoreM.get(entity).score;
+    									entity.deleteFromWorld();
+    									entities.remove(i);
+    								}
+    								secondEntity.deleteFromWorld();
+    								entities.remove(j);
+    							}
+
+    							//If the ship is player and the bullet is enemy, decrement player health
+    							else if (owner1 == 1 && owner2 == 0)
+    							{
+    								//Decrement by 5?  Why not
+    								healthM.get(entity).health -= 5;
+    								if (healthM.get(entity).health <= 0)
+    								{
+    									//End the game
+    									entity.deleteFromWorld();
+    									entities.remove(i);
+    									break;
+    								}
+    								secondEntity.deleteFromWorld();
+    								entities.remove(j);
+    							}
+    						}
+    					}
+
+    					//Now reverse it
+    					else if (!scoreM.has(entity) && scoreM.has(secondEntity))
+    					{
+    						if (isInHitbox(entity, secondEntity)) {
+    							//If the bullet is enemy and the ship is enemy, do nothing
+    							//if (owner1 == 0 && owner2 == 0)
+    							//{
+    							//Do nothing; enemy bullets should not affect enemies
+    							//}
+
+    							//If the bullet is enemy and the ship is friendly
+    							if (owner1 == 0 && owner2 == 1)
+    							{
+    								healthM.get(secondEntity).health -= 1;
+    								if (healthM.get(secondEntity).health <= 0)
+    								{
+    									//End the game
+    									secondEntity.deleteFromWorld();
+    									entities.remove(j);
+    									break;
+    								}
+    								entity.deleteFromWorld();
+    								entities.remove(i);
+    							}
+
+    							//If the bullet is player and the ship is enemy, decrement
+    							else if (owner1 == 1 && owner2 == 0)
+    							{
+    								//Decrement by 1?  Why not
+    								healthM.get(secondEntity).health -= 1;
+    								if (healthM.get(secondEntity).health <= 0)
+    								{
+    									Bullethell.score += scoreM.get(secondEntity).score;
+    									secondEntity.deleteFromWorld();
+    									entities.remove(j);
+    								}
+    								entity.deleteFromWorld();
+    								entities.remove(i);
+    							}
+    						}
+    					}
+
+    					//If both are ships
+    					else if (scoreM.has(entity) && scoreM.has(secondEntity))
+    					{
+    						if (isIntersecting(entity, secondEntity)) {
+    							//if (owner1 == 1 && owner2 == 1)
+    							//{
+    							//Do nothing; we don't care if enemy ships interact
+    							//}
+
+    							if (owner1 == 1 && owner2 == 0)
+    							{
+    								healthM.get(entity).health -= 1;
+    								if (healthM.get(entity).health <= 0)
+    								{
+    									Bullethell.score += scoreM.get(entity).score;
+    									world.deleteEntity(entity);
+    									entities.remove(entity);
+    								}
+    								healthM.get(secondEntity).health -= 1;
+    								if (healthM.get(secondEntity).health <= 0)
+    								{
+    									//End the game?
+    									world.deleteEntity(secondEntity);
+    									entities.remove(secondEntity);
+    									break;
+    								}
+    							}
+    							else if (owner1 == 0 && owner2 == 1)
+    							{
+    								healthM.get(entity).health -= 1;
+    								if (healthM.get(entity).health <= 0)
+    								{
+    									//End the game?
+    									world.deleteEntity(entity);
+    									entities.remove(entity);
+    									break;
+    								}
+    								healthM.get(secondEntity).health -= 1;
+    								if (healthM.get(secondEntity).health <= 0)
+    								{
+    									//End the game?
+    									Bullethell.score += scoreM.get(secondEntity).score;
+    									world.deleteEntity(secondEntity);
+    									entities.remove(secondEntity);
+    								}
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
     }
     
     /**
