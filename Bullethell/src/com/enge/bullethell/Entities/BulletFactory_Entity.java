@@ -1,5 +1,6 @@
 package com.enge.bullethell.Entities;
 
+import com.enge.bullethell.Bullethell;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.enge.bullethell.Vector2;
@@ -23,9 +24,13 @@ public class BulletFactory_Entity {
 		}
 		bullet.addComponent(new Bullet_Component(bulletType));
 		bullet.addComponent(new Owner_Component(0));
-		
+
 		bullet.addToWorld();
 		return bullet;
 	}
-	
+
+	public static void playerFire(World world) {
+	    // TODO: switch on bullet type?
+	    createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
+			20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);	}
 }

@@ -1,5 +1,6 @@
 package com.enge.bullethell;
 
+import com.enge.bullethell.Systems.PlayerFire_System;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.ApplicationListener;
@@ -26,22 +27,23 @@ public class Bullethell implements ApplicationListener {
 	private Render_System renderSystem;
 	public static int score = 0;
 	public static Entity player;
-	
+
 	@Override
 	public void create() {
 		world = new World();
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		
+
 		camera = new OrthographicCamera();
 		renderSystem = new Render_System(camera);
 		world.setSystem(renderSystem);
-		world.setSystem(new CollisionDetection_System(world));
+		world.setSystem(new CollisionDetection_System());
 		world.setSystem(new Movement_System());
-		
+		world.setSystem(new PlayerFire_System());
+
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
 		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
-		
+
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}

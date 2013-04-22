@@ -1,5 +1,7 @@
 package com.enge.bullethell.Systems;
 
+import com.enge.bullethell.Entities.ShipFactory_Entity;
+import com.enge.bullethell.Components.Velocity_Component;
 import com.artemis.World;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,37 +15,58 @@ import com.enge.bullethell.Entities.BulletFactory_Entity;
 public class InputSystem extends InputAdapter {
 	private OrthographicCamera camera;
 	private World world;
-	
+
 	public InputSystem (World world, OrthographicCamera camera) {
 		this.world = world;
 		this.camera = camera;
 	}
-	
+
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector3 unprojectedPosition = new Vector3(screenX, screenY, 0);
-		camera.unproject(unprojectedPosition);
-		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
-		BulletFactory_Entity.createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
-				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
-		
+		Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
+		camera.unproject(unprojectedPos3);
+		Vector2 playerPosition = Bullethell.player.getComponent(Position_Component.class).position;
+		Vector2 unprojectedPos2 = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
+		Vector2 velocity = unprojectedPos2.sub(playerPosition).unit().mul(ShipFactory_Entity.PLAYER_VELOCITY);
+
+		if (unprojectedPos2.sub(velocity).len() > ShipFactory_Entity.PLAYER_VELOCITY) {
+		    Bullethell.player.getComponent(Velocity_Component.class).velocity = velocity;
+		}
+		else {
+		    Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
+		    Bullethell.player.getComponent(Position_Component.class).position = unprojectedPos2;
+		}
+
+		world.getSystem(PlayerFire_System.class).firing = true;
+
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		Vector3 unprojectedPosition = new Vector3(screenX, screenY, 0);
-		camera.unproject(unprojectedPosition);
-		Bullethell.player.getComponent(Position_Component.class).position = new Vector2(unprojectedPosition.x, unprojectedPosition.y);
-		BulletFactory_Entity.createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
-				20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);
-	
+       Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
+        camera.unproject(unprojectedPos3);
+        Vector2 playerPosition = Bullethell.player.getComponent(Position_Component.class).position;
+        Vector2 unprojectedPos2 = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
+        Vector2 velocity = unprojectedPos2.sub(playerPosition).unit().mul(ShipFactory_Entity.PLAYER_VELOCITY);
+
+        if (unprojectedPos2.sub(velocity).len() > ShipFactory_Entity.PLAYER_VELOCITY) {
+            Bullethell.player.getComponent(Velocity_Component.class).velocity = velocity;
+        }
+        else {
+            Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
+            Bullethell.player.getComponent(Position_Component.class).position = unprojectedPos2;
+	    }
+
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return super.touchUp(screenX, screenY, pointer, button);
+		Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
+		world.getSystem(PlayerFire_System.class).firing = false;
+
+		return true;
 	}
 
 }
