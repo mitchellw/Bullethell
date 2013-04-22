@@ -3,24 +3,24 @@ sprites.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-bullet
+player
   rotate: false
   xy: 1, 1
-  size: 20, 60
-  orig: 20, 60
+  size: 101, 121
+  orig: 101, 121
   offset: 0, 0
   index: -1
 enemy
   rotate: false
-  xy: 23, 21
-  size: 40, 40
-  orig: 40, 40
+  xy: 104, 73
+  size: 53, 49
+  orig: 53, 49
   offset: 0, 0
   index: -1
-player
+bullet
   rotate: false
-  xy: 65, 21
-  size: 40, 40
-  orig: 40, 40
+  xy: 104, 46
+  size: 25, 25
+  orig: 25, 25
   offset: 0, 0
   index: -1
