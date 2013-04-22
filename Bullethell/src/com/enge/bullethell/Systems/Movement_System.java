@@ -44,5 +44,10 @@ public class Movement_System extends EntityProcessingSystem {
     protected void process(Entity entity) {
         //To change body of implemented methods use File | Settings | File Templates.
     	updatePosition(entity);
+    	
+    	Vector2 position = positionM.get(entity).position;
+    	if (position.y > 830 || position.x < -30 || position.x > 510 || position.y < -30) {
+    		entity.deleteFromWorld();
+    	}
     }
 }
