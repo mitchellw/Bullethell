@@ -31,6 +31,6 @@ public class BulletFactory_Entity {
 
 	public static void playerFire(World world) {
 	    // TODO: switch on bullet type?
-	    createBullet(world, new Vector2(0, 4), Bullethell.player.getComponent(Position_Component.class).position,
+	    createBullet(world, new Vector2(0, 8), Bullethell.player.getComponent(Position_Component.class).position,
 			20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);	}
 }
