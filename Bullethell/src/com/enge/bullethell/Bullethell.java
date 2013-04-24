@@ -10,6 +10,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 import com.enge.bullethell.Systems.CollisionDetection_System;
 import com.enge.bullethell.Systems.InputSystem;
@@ -29,10 +31,17 @@ public class Bullethell implements ApplicationListener {
 	public static Sound explosion;
 	public static Sound fire;
 	public static Music bgmusic;
+	public static SpriteBatch batch;
+	public static BitmapFont font;
+	public static final String FONT_CHARACTERS = "SCORE:0123456789";
 	
 	@Override
 	public void create() {
 		world = new World();
+		
+		batch = new SpriteBatch();
+		font = new BitmapFont(Gdx.files.internal("fonts/bold.fnt"),
+				Gdx.files.internal("fonts/bold.png"), false);
 		
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
@@ -78,6 +87,9 @@ public class Bullethell implements ApplicationListener {
 	public void render() {
 		world.setDelta(Gdx.graphics.getDeltaTime());
 		world.process();
+		batch.begin();
+		font.draw(batch, "SCORE: " + score, 25, 775);
+		batch.end();
 	}
 
 	@Override
