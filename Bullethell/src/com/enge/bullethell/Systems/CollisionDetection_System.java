@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.World;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
@@ -33,18 +33,30 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Health_Component> healthM;
 	@Mapper ComponentMapper<Score_Component> scoreM;
 	private long lastUpdated;
+	private Sound collision;
+	private Sound death;
+	private Sound enemyCollision;
+	private Sound explosion;
 
 	/**
 	 * Constructor for the class.
+	 * @param explosion 
+	 * @param enemyCollision 
+	 * @param death 
+	 * @param collision 
 	 * @param aspect aspect
 	 */
     @SuppressWarnings("unchecked")
-	public CollisionDetection_System() {
+	public CollisionDetection_System(Sound collision, Sound death, Sound enemyCollision, Sound explosion) {
         super(Aspect.getAspectForAll(Position_Component.class,
         		Hitbox_Component.class, Owner_Component.class));
         		//.getAspectForOne(Health_Component.class, Score_Component.class));
         lastUpdated = System.currentTimeMillis();
         entities = new ArrayList<Entity>();
+        this.collision = collision;
+        this.death = death;
+        this.enemyCollision = enemyCollision;
+        this.explosion = explosion;
     }
 
     /**
@@ -140,6 +152,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									Bullethell.score += scoreM.get(entity).score;
     									entity.deleteFromWorld();
     									entities.remove(i);
+    									explosion.play();
     								}
     								secondEntity.deleteFromWorld();
     								entities.remove(j);
@@ -155,6 +168,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									entity.deleteFromWorld();
     									entities.remove(i);
+    									explosion.play();
     									break;
     								}
     								secondEntity.deleteFromWorld();
@@ -182,6 +196,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									secondEntity.deleteFromWorld();
     									entities.remove(j);
+    									death.play();
     									break;
     								}
     								entity.deleteFromWorld();
@@ -198,6 +213,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									Bullethell.score += scoreM.get(secondEntity).score;
     									secondEntity.deleteFromWorld();
     									entities.remove(j);
+    									explosion.play();
     								}
     								entity.deleteFromWorld();
     								entities.remove(i);
@@ -207,7 +223,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 
     					//If both are ships
     					else if (isShip && scoreM.has(secondEntity))
-    					{
+    					{    						
     						if (isIntersecting(entity, secondEntity)) {
     							//if (owner1 == 1 && owner2 == 1)
     							//{
@@ -222,6 +238,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									Bullethell.score += scoreM.get(entity).score;
     									world.deleteEntity(entity);
     									entities.remove(entity);
+    									explosion.play();
     								}
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)
@@ -229,6 +246,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									world.deleteEntity(secondEntity);
     									entities.remove(secondEntity);
+    									death.play();
     									break;
     								}
     							}
@@ -240,6 +258,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									world.deleteEntity(entity);
     									entities.remove(entity);
+    									death.play();
     									break;
     								}
     								healthM.get(secondEntity).health -= 1;
@@ -249,6 +268,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									Bullethell.score += scoreM.get(secondEntity).score;
     									world.deleteEntity(secondEntity);
     									entities.remove(secondEntity);
+    									explosion.play();
     								}
     							}
     						}

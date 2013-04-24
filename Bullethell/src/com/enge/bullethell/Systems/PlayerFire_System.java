@@ -2,6 +2,7 @@ package com.enge.bullethell.Systems;
 
 import com.enge.bullethell.Entities.BulletFactory_Entity;
 import com.artemis.systems.VoidEntitySystem;
+import com.badlogic.gdx.audio.Sound;
 
 // -------------------------------------------------------------------------
 /**
@@ -16,10 +17,12 @@ public class PlayerFire_System extends VoidEntitySystem
 {
     private long lastFired;
     public static boolean firing;
+    private Sound fire;
 
-    public PlayerFire_System() {
+    public PlayerFire_System(Sound fire) {
         lastFired = System.currentTimeMillis();
         firing = false;
+        this.fire = fire;
     }
 
     @Override
@@ -29,6 +32,7 @@ public class PlayerFire_System extends VoidEntitySystem
             lastFired = System.currentTimeMillis();
 
             BulletFactory_Entity.playerFire(world);
+            fire.play();
         }
     }
 }
