@@ -22,7 +22,7 @@ public class ShipFactory_Entity
     public static final float PLAYER_VELOCITY = 5;
 
 	public static Entity createShip(World world, Vector2 velocity, Vector2 position, String spriteName,
-			int width, int height, int bulletType, int health, int score, Owner owner)
+			int width, int height, int bulletType, int health, int score, Owner owner, Vector2 destination)
     {
         Entity ship = world.createEntity();
         ship.addComponent(new Sprite_Component(spriteName));
@@ -33,17 +33,17 @@ public class ShipFactory_Entity
         ship.addComponent(new Health_Component(health));
         ship.addComponent(new Score_Component(score));
         ship.addComponent(new Owner_Component(owner));
-        ship.addComponent(new Destination_Component(null));
+        ship.addComponent(new Destination_Component(destination));
 
 		ship.addToWorld();
 		return ship;
     }
 
 	public static Entity createPlayer(World world, Vector2 position, int bulletType) {
-		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, 0, Owner.HUMAN);
+		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, 0, Owner.HUMAN, null);
 	}
 
-	public static Entity createEnemy1(World world, Vector2 position, Vector2 velocity, int bulletType) {
-		return createShip(world, velocity, position, "enemy", 64, 64, bulletType, 1, 100, Owner.COMPUTER);
+	public static Entity createEnemy1(World world, Vector2 position, Vector2 velocity, int bulletType, Vector2 destination) {
+		return createShip(world, velocity, position, "enemy", 64, 64, bulletType, 1, 100, Owner.COMPUTER, destination);
 	}
 }
