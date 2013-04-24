@@ -58,7 +58,11 @@ public class Bullethell implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		//Clean up
+		collision.dispose();
+		death.dispose();
+		enemyCollision.dispose();
+		explosion.dispose();
+		fire.dispose();
 	}
 
 	@Override
@@ -74,9 +78,19 @@ public class Bullethell implements ApplicationListener {
 
 	@Override
 	public void pause() {
+		collision.dispose();
+		death.dispose();
+		enemyCollision.dispose();
+		explosion.dispose();
+		fire.dispose();
 	}
 
 	@Override
 	public void resume() {
+		collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
+		death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
+		enemyCollision = Gdx.audio.newSound(Gdx.files.internal("audio/enemycollision.ogg"));
+		explosion = Gdx.audio.newSound(Gdx.files.internal("audio/MediumExplosion8-Bit.ogg"));
+		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 	}
 }
