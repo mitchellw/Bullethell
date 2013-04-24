@@ -16,12 +16,8 @@ import com.badlogic.gdx.audio.Sound;
 public class PlayerFire_System extends VoidEntitySystem
 {
     private long lastFired;
-<<<<<<< HEAD
     public static boolean firing;
     private Sound fire;
-=======
-    public boolean firing;
->>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
 
     public PlayerFire_System(Sound fire) {
         lastFired = System.currentTimeMillis();

@@ -44,12 +44,8 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new CollisionDetection_System(collision, 
 				death, enemyCollision, explosion));
 		world.setSystem(new Movement_System());
-<<<<<<< HEAD
 		world.setSystem(new PlayerFire_System(fire));
-=======
-		world.setSystem(new PlayerFire_System());
 		world.setSystem(new Path_System());
->>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
 
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
 		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
