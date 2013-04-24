@@ -1,6 +1,7 @@
 package com.enge.bullethell.Entities;
 
 import com.enge.bullethell.Bullethell;
+import com.enge.bullethell.Owner;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.enge.bullethell.Vector2;
@@ -13,7 +14,7 @@ import com.enge.bullethell.Components.Velocity_Component;
 
 public class BulletFactory_Entity {
 
-	public static Entity createBullet(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType, int owner)
+	public static Entity createBullet(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType, Owner owner)
 	{
 		Entity bullet = world.createEntity();
 		bullet.addComponent(new Velocity_Component(velocity));
@@ -23,7 +24,7 @@ public class BulletFactory_Entity {
 			bullet.addComponent(new Sprite_Component("bullet"));
 		}
 		bullet.addComponent(new Bullet_Component(bulletType));
-		bullet.addComponent(new Owner_Component(0));
+		bullet.addComponent(new Owner_Component(owner));
 
 		bullet.addToWorld();
 		return bullet;
@@ -32,5 +33,5 @@ public class BulletFactory_Entity {
 	public static void playerFire(World world) {
 	    // TODO: switch on bullet type?
 	    createBullet(world, new Vector2(0, 8), Bullethell.player.getComponent(Position_Component.class).position,
-			20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, 1);	}
+			20, 40, Bullethell.player.getComponent(Bullet_Component.class).weaponType, Owner.HUMAN);	}
 }

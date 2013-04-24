@@ -1,6 +1,7 @@
 package com.enge.bullethell.Systems;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,6 +10,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.audio.Sound;
 import com.enge.bullethell.Bullethell;
+import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
 import com.enge.bullethell.Components.Health_Component;
@@ -110,23 +112,26 @@ public class CollisionDetection_System extends EntityProcessingSystem {
      */
     @Override
     protected void process(Entity e) {
-    	if (System.currentTimeMillis() - lastUpdated > 150) {
+    	if (System.currentTimeMillis() - lastUpdated > 50) {
     		lastUpdated = System.currentTimeMillis();
 
     		Entity entity;
     		Entity secondEntity;
+    		int counter = 0;
+    		Iterator<Entity> iterator1 = entities.listIterator(0);
 
-    		for (int i = 0; i < entities.size(); i++) {
-    			entity = entities.get(i);
+    		while (iterator1.hasNext()) {
+    			entity = iterator1.next();
     			boolean isShip = scoreM.has(entity);
 
-    			for (int j = i+1; j < entities.size(); j++)
+    			Iterator<Entity> iterator2 = entities.listIterator(counter + 1);
+    			while (iterator2.hasNext())
     			{
-    				secondEntity = entities.get(j);
+    				secondEntity = iterator2.next();
     				if (entity != secondEntity)
     				{
-    					int owner1 = ownerM.get(entity).owner;
-    					int owner2 = ownerM.get(secondEntity).owner;
+    					Owner owner1 = ownerM.get(entity).owner;
+    					Owner owner2 = ownerM.get(secondEntity).owner;
     					//If both are bullets, let them pass
     					//if (!scoreM.has(entity) && !scoreM.has(secondEntity))
     					//{
@@ -144,22 +149,26 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     							//}
 
     							//If the ship is enemy and the bullet is player, decrement enemy health
-    							if (owner1 == 0 && owner2 == 1)
+    							if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
     							{
     								healthM.get(entity).health -= 1;
     								if (healthM.get(entity).health <= 0)
     								{
     									Bullethell.score += scoreM.get(entity).score;
     									entity.deleteFromWorld();
+<<<<<<< HEAD
     									entities.remove(i);
     									explosion.play();
+=======
+    									//iterator1.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     								}
     								secondEntity.deleteFromWorld();
-    								entities.remove(j);
+    								//iterator2.remove();
     							}
 
     							//If the ship is player and the bullet is enemy, decrement player health
-    							else if (owner1 == 1 && owner2 == 0)
+    							else if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
     							{
     								//Decrement by 5?  Why not
     								healthM.get(entity).health -= 5;
@@ -167,12 +176,16 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								{
     									//End the game
     									entity.deleteFromWorld();
+<<<<<<< HEAD
     									entities.remove(i);
     									explosion.play();
+=======
+    									//iterator1.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     									break;
     								}
     								secondEntity.deleteFromWorld();
-    								entities.remove(j);
+    								//iterator2.remove();
     							}
     						}
     					}
@@ -188,23 +201,27 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     							//}
 
     							//If the bullet is enemy and the ship is friendly
-    							if (owner1 == 0 && owner2 == 1)
+    							if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
     							{
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)
     								{
     									//End the game
     									secondEntity.deleteFromWorld();
+<<<<<<< HEAD
     									entities.remove(j);
     									death.play();
+=======
+    									//iterator2.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     									break;
     								}
     								entity.deleteFromWorld();
-    								entities.remove(i);
+    								//iterator1.remove();
     							}
 
     							//If the bullet is player and the ship is enemy, decrement
-    							else if (owner1 == 1 && owner2 == 0)
+    							else if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
     							{
     								//Decrement by 1?  Why not
     								healthM.get(secondEntity).health -= 1;
@@ -212,11 +229,15 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								{
     									Bullethell.score += scoreM.get(secondEntity).score;
     									secondEntity.deleteFromWorld();
+<<<<<<< HEAD
     									entities.remove(j);
     									explosion.play();
+=======
+    									//iterator2.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     								}
     								entity.deleteFromWorld();
-    								entities.remove(i);
+    								//iterator1.remove();
     							}
     						}
     					}
@@ -230,35 +251,47 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     							//Do nothing; we don't care if enemy ships interact
     							//}
 
-    							if (owner1 == 1 && owner2 == 0)
+    							if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
     							{
     								healthM.get(entity).health -= 1;
     								if (healthM.get(entity).health <= 0)
     								{
     									Bullethell.score += scoreM.get(entity).score;
     									world.deleteEntity(entity);
+<<<<<<< HEAD
     									entities.remove(entity);
     									explosion.play();
+=======
+    									//iterator1.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     								}
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)
     								{
     									//End the game?
     									world.deleteEntity(secondEntity);
+<<<<<<< HEAD
     									entities.remove(secondEntity);
     									death.play();
+=======
+    									//iterator2.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     									break;
     								}
     							}
-    							else if (owner1 == 0 && owner2 == 1)
+    							else if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
     							{
     								healthM.get(entity).health -= 1;
     								if (healthM.get(entity).health <= 0)
     								{
     									//End the game?
     									world.deleteEntity(entity);
+<<<<<<< HEAD
     									entities.remove(entity);
     									death.play();
+=======
+    									//iterator1.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     									break;
     								}
     								healthM.get(secondEntity).health -= 1;
@@ -267,14 +300,19 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									Bullethell.score += scoreM.get(secondEntity).score;
     									world.deleteEntity(secondEntity);
+<<<<<<< HEAD
     									entities.remove(secondEntity);
     									explosion.play();
+=======
+    									//iterator2.remove();
+>>>>>>> db4cad9dd96b0004f54e9d317a2ada0dd8cf1dd1
     								}
     							}
     						}
     					}
     				}
     			}
+    			counter++;
     		}
     	}
     }

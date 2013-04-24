@@ -1,6 +1,7 @@
 package com.enge.bullethell.Components;
 
 import com.artemis.Component;
+import com.enge.bullethell.Owner;
 
 /**
  * The component that will determine who the owner of the entity is. 1 is player, 0 is enemy
@@ -9,13 +10,13 @@ import com.artemis.Component;
  */
 public class Owner_Component extends Component 
 {
-	public int owner;
+	public Owner owner;
 	
 	/**
 	 * Sets the owner in the constructor.
 	 * @param owner The owner of the component.
 	 */
-	public Owner_Component(int owner)
+	public Owner_Component(Owner owner)
 	{
 		this.owner = owner;
 	}
