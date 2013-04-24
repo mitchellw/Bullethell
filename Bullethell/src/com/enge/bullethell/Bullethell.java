@@ -33,9 +33,8 @@ public class Bullethell implements ApplicationListener {
 	@Override
 	public void create() {
 		world = new World();
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
 		
+		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
 		death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
 		enemyCollision = Gdx.audio.newSound(Gdx.files.internal("audio/enemycollision.ogg"));
@@ -44,6 +43,7 @@ public class Bullethell implements ApplicationListener {
 		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/POL-tekno-labs-short.mp3"));
 		bgmusic.setVolume(0.75f);
 		bgmusic.play();
+
 
 		camera = new OrthographicCamera();
 		renderSystem = new Render_System(camera);
@@ -55,9 +55,9 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new Path_System());
 
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
-		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0);
-		ShipFactory_Entity.createEnemy1(world, new Vector2(250, 800), new Vector2(0, -1), 0);
-		ShipFactory_Entity.createEnemy1(world, new Vector2(400, 700), new Vector2(0, -1), 0);
+		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0, new Vector2(500, -50));
+		ShipFactory_Entity.createEnemy1(world, new Vector2(250, 800), new Vector2(0, -1), 0, new Vector2(0, -50));
+		ShipFactory_Entity.createEnemy1(world, new Vector2(400, 700), new Vector2(0, -1), 0, new Vector2(300, -50));
 
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));
@@ -65,7 +65,12 @@ public class Bullethell implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		//Clean up
+		collision.dispose();
+		death.dispose();
+		enemyCollision.dispose();
+		explosion.dispose();
+		fire.dispose();
+		bgmusic.dispose();
 	}
 
 	@Override
@@ -81,9 +86,19 @@ public class Bullethell implements ApplicationListener {
 
 	@Override
 	public void pause() {
+		//collision.dispose();
+		//death.dispose();
+		//enemyCollision.dispose();
+		//explosion.dispose();
+		//fire.dispose();
 	}
 
 	@Override
 	public void resume() {
+		//fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
+		//collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
+		//death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
+		//enemyCollision = Gdx.audio.newSound(Gdx.files.internal("audio/enemycollision.ogg"));
+		//explosion = Gdx.audio.newSound(Gdx.files.internal("audio/MediumExplosion8-Bit.ogg"));
 	}
 }

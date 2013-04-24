@@ -32,7 +32,7 @@ public class PlayerFire_System extends VoidEntitySystem
             lastFired = System.currentTimeMillis();
 
             BulletFactory_Entity.playerFire(world);
-            fire.play();
+            fire.play(0.6f);
         }
     }
 }
