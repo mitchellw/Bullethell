@@ -42,6 +42,7 @@ public class Bullethell implements ApplicationListener {
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/POL-tekno-labs-short.mp3"));
 		bgmusic.setVolume(0.75f);
+		bgmusic.setLooping(true);
 		bgmusic.play();
 
 
