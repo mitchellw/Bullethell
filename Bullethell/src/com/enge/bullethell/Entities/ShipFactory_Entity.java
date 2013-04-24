@@ -2,6 +2,7 @@ package com.enge.bullethell.Entities;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
 import com.enge.bullethell.Components.Health_Component;
@@ -20,7 +21,7 @@ public class ShipFactory_Entity
     public static final float PLAYER_VELOCITY = 5;
 
 	public static Entity createShip(World world, Vector2 velocity, Vector2 position, String spriteName,
-			int width, int height, int bulletType, int health, int score, int owner)
+			int width, int height, int bulletType, int health, int score, Owner owner)
     {
         Entity ship = world.createEntity();
         ship.addComponent(new Sprite_Component(spriteName));
@@ -37,10 +38,10 @@ public class ShipFactory_Entity
     }
 
 	public static Entity createPlayer(World world, Vector2 position, int bulletType) {
-		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, 0, 0);
+		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, 0, Owner.HUMAN);
 	}
 
 	public static Entity createEnemy1(World world, Vector2 position, Vector2 velocity, int bulletType) {
-		return createShip(world, velocity, position, "enemy", 64, 64, bulletType, 1, 100, 1);
+		return createShip(world, velocity, position, "enemy", 64, 64, bulletType, 1, 100, Owner.COMPUTER);
 	}
 }
