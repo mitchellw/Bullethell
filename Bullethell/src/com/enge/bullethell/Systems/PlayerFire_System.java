@@ -15,7 +15,7 @@ import com.artemis.systems.VoidEntitySystem;
 public class PlayerFire_System extends VoidEntitySystem
 {
     private long lastFired;
-    public static boolean firing;
+    public boolean firing;
 
     public PlayerFire_System() {
         lastFired = System.currentTimeMillis();

@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
+import com.enge.bullethell.Components.Destination_Component;
 import com.enge.bullethell.Components.Health_Component;
 import com.enge.bullethell.Components.Hitbox_Component;
 import com.enge.bullethell.Components.Owner_Component;
@@ -32,6 +33,7 @@ public class ShipFactory_Entity
         ship.addComponent(new Health_Component(health));
         ship.addComponent(new Score_Component(score));
         ship.addComponent(new Owner_Component(owner));
+        ship.addComponent(new Destination_Component(null));
 
 		ship.addToWorld();
 		return ship;
