@@ -1,11 +1,14 @@
 package com.enge.bullethell;
 
+
+
 import com.enge.bullethell.Systems.PlayerFire_System;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 import com.enge.bullethell.Systems.CollisionDetection_System;
@@ -25,6 +28,7 @@ public class Bullethell implements ApplicationListener {
 	public static Sound enemyCollision;
 	public static Sound explosion;
 	public static Sound fire;
+	public static Music bgmusic;
 	
 	@Override
 	public void create() {
@@ -37,6 +41,9 @@ public class Bullethell implements ApplicationListener {
 		enemyCollision = Gdx.audio.newSound(Gdx.files.internal("audio/enemycollision.ogg"));
 		explosion = Gdx.audio.newSound(Gdx.files.internal("audio/MediumExplosion8-Bit.ogg"));
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
+		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/POL-tekno-labs-short.mp3"));
+		bgmusic.setVolume(0.75f);
+		bgmusic.play();
 
 		camera = new OrthographicCamera();
 		renderSystem = new Render_System(camera);
