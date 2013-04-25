@@ -2,6 +2,8 @@ package com.enge.bullethell;
 
 
 
+import com.enge.bullethell.Components.Font_Component;
+import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Systems.PlayerFire_System;
 import com.artemis.Entity;
 import com.artemis.World;
@@ -25,24 +27,18 @@ public class Bullethell implements ApplicationListener {
 	private Render_System renderSystem;
 	public static int score = 0;
 	public static Entity player;
-	public static Sound collision;
-	public static Sound death;
-	public static Sound enemyCollision;
-	public static Sound explosion;
-	public static Sound fire;
-	public static Music bgmusic;
-	public static SpriteBatch batch;
-	public static BitmapFont font;
-	public static final String FONT_CHARACTERS = "SCORE:0123456789";
-	
+	private Sound collision;
+	private Sound death;
+	private Sound enemyCollision;
+	private Sound explosion;
+	private Sound fire;
+	private Music bgmusic;
+	private BitmapFont font;
+
 	@Override
 	public void create() {
 		world = new World();
-		
-		batch = new SpriteBatch();
-		font = new BitmapFont(Gdx.files.internal("fonts/bold.fnt"),
-				Gdx.files.internal("fonts/bold.png"), false);
-		
+
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
 		death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
@@ -58,7 +54,7 @@ public class Bullethell implements ApplicationListener {
 		camera = new OrthographicCamera();
 		renderSystem = new Render_System(camera);
 		world.setSystem(renderSystem);
-		world.setSystem(new CollisionDetection_System(collision, 
+		world.setSystem(new CollisionDetection_System(collision,
 				death, enemyCollision, explosion));
 		world.setSystem(new Movement_System());
 		world.setSystem(new PlayerFire_System(fire));
@@ -68,6 +64,8 @@ public class Bullethell implements ApplicationListener {
 		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0, new Vector2(500, -50));
 		ShipFactory_Entity.createEnemy1(world, new Vector2(250, 800), new Vector2(0, -1), 0, new Vector2(0, -50));
 		ShipFactory_Entity.createEnemy1(world, new Vector2(400, 700), new Vector2(0, -1), 0, new Vector2(300, -50));
+		world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null)).addToWorld();
+
 
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));
@@ -87,9 +85,6 @@ public class Bullethell implements ApplicationListener {
 	public void render() {
 		world.setDelta(Gdx.graphics.getDeltaTime());
 		world.process();
-		batch.begin();
-		font.draw(batch, "SCORE: " + score, 25, 775);
-		batch.end();
 	}
 
 	@Override
