@@ -171,9 +171,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								if (healthM.get(entity).health <= 0)
     								{
     									//End the game
+    									Bullethell.gameState = GameState.LOST;
+    									world.deleteSystem(Bullethell.spawnSystem);
     									entity.deleteFromWorld();
     									explosion.play();
-    									Bullethell.gameState = GameState.LOST;
     								}
     								secondEntity.deleteFromWorld();
     								//iterator2.remove();
@@ -198,9 +199,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								if (healthM.get(secondEntity).health <= 0)
     								{
     									//End the game
+    									Bullethell.gameState = GameState.LOST;
+    									world.deleteSystem(Bullethell.spawnSystem);
     									secondEntity.deleteFromWorld();
     									death.play();
-    									Bullethell.gameState = GameState.LOST;
     								}
     								entity.deleteFromWorld();
     								//iterator1.remove();
@@ -246,10 +248,11 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								if (healthM.get(secondEntity).health <= 0)
     								{
     									//End the game?
+    									Bullethell.gameState = GameState.LOST;
+    									world.deleteSystem(Bullethell.spawnSystem);
     									world.deleteEntity(secondEntity);
     									entities.remove(secondEntity);
     									death.play();
-    									Bullethell.gameState = GameState.LOST;
     								}
     							}
     							else if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
@@ -258,10 +261,11 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								if (healthM.get(entity).health <= 0)
     								{
     									//End the game?
+    									Bullethell.gameState = GameState.LOST;
+    									world.deleteSystem(Bullethell.spawnSystem);
     									world.deleteEntity(entity);
     									entities.remove(entity);
     									death.play();
-    									Bullethell.gameState = GameState.LOST;
     								}
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)

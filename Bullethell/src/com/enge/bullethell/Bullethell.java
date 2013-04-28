@@ -15,6 +15,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 import com.enge.bullethell.Systems.CollisionDetection_System;
+import com.enge.bullethell.Systems.EnemySpawning_System;
 import com.enge.bullethell.Systems.InputSystem;
 import com.enge.bullethell.Systems.Movement_System;
 import com.enge.bullethell.Systems.Path_System;
@@ -29,6 +30,7 @@ public class Bullethell implements ApplicationListener {
 	public static Entity splashScreen;
 	public static Entity scoreEntity;
 	public static GameState gameState;
+	public static EnemySpawning_System spawnSystem;
 	private Sound collision;
 	private Sound death;
 	private Sound enemyCollision;
@@ -61,6 +63,7 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new Movement_System());
 		world.setSystem(new PlayerFire_System(fire));
 		world.setSystem(new Path_System());
+		spawnSystem = new EnemySpawning_System();
 
 		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
 		splashScreen.addToWorld();

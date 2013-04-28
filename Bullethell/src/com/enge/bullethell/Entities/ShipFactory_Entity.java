@@ -20,6 +20,10 @@ public class ShipFactory_Entity
      * The linear velocity of a player ship.
      */
     public static final float PLAYER_VELOCITY = 5;
+    /**
+     * The linear velocity of a enemy1 ship.
+     */
+    public static final float ENEMY1_VELOCITY = 3;
 
 	public static Entity createShip(World world, Vector2 velocity, Vector2 position, String spriteName,
 			int width, int height, int bulletType, int health, int score, Owner owner, Vector2 destination)
@@ -40,7 +44,7 @@ public class ShipFactory_Entity
     }
 
 	public static Entity createPlayer(World world, Vector2 position, int bulletType) {
-		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, 0, Owner.HUMAN, null);
+		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, -1, Owner.HUMAN, null);
 	}
 
 	public static Entity createEnemy1(World world, Vector2 position, Vector2 velocity, int bulletType, Vector2 destination) {
