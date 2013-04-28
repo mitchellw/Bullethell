@@ -12,8 +12,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 import com.enge.bullethell.Systems.CollisionDetection_System;
 import com.enge.bullethell.Systems.InputSystem;
@@ -27,16 +25,17 @@ public class Bullethell implements ApplicationListener {
 	private Render_System renderSystem;
 	public static int score = 0;
 	public static Entity player;
+	public static GameState gameState;
 	private Sound collision;
 	private Sound death;
 	private Sound enemyCollision;
 	private Sound explosion;
 	private Sound fire;
 	private Music bgmusic;
-	private BitmapFont font;
 
 	@Override
 	public void create() {
+		gameState = GameState.START;
 		world = new World();
 
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
@@ -68,7 +67,7 @@ public class Bullethell implements ApplicationListener {
 
 
 		world.initialize();
-		Gdx.input.setInputProcessor(new InputSystem(world, camera));
+		Gdx.input.setInputProcessor(new InputSystem(camera));
 	}
 
 	@Override
@@ -84,7 +83,9 @@ public class Bullethell implements ApplicationListener {
 	@Override
 	public void render() {
 		world.setDelta(Gdx.graphics.getDeltaTime());
-		world.process();
+		if (gameState == GameState.PLAYING) {
+			world.process();
+		}
 	}
 
 	@Override
