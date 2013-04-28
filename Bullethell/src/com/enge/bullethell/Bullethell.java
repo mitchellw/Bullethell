@@ -4,6 +4,7 @@ package com.enge.bullethell;
 
 import com.enge.bullethell.Components.Font_Component;
 import com.enge.bullethell.Components.Position_Component;
+import com.enge.bullethell.Components.Sprite_Component;
 import com.enge.bullethell.Systems.PlayerFire_System;
 import com.artemis.Entity;
 import com.artemis.World;
@@ -25,6 +26,8 @@ public class Bullethell implements ApplicationListener {
 	private Render_System renderSystem;
 	public static int score = 0;
 	public static Entity player;
+	public static Entity splashScreen;
+	public static Entity scoreEntity;
 	public static GameState gameState;
 	private Sound collision;
 	private Sound death;
@@ -59,15 +62,13 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new PlayerFire_System(fire));
 		world.setSystem(new Path_System());
 
-		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
-		ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0, new Vector2(500, -50));
-		ShipFactory_Entity.createEnemy1(world, new Vector2(250, 800), new Vector2(0, -1), 0, new Vector2(0, -50));
-		ShipFactory_Entity.createEnemy1(world, new Vector2(400, 700), new Vector2(0, -1), 0, new Vector2(300, -50));
-		world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null)).addToWorld();
-
+		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
+		splashScreen.addToWorld();
+		scoreEntity = world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null));
+		
 
 		world.initialize();
-		Gdx.input.setInputProcessor(new InputSystem(camera));
+		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}
 
 	@Override
@@ -83,9 +84,7 @@ public class Bullethell implements ApplicationListener {
 	@Override
 	public void render() {
 		world.setDelta(Gdx.graphics.getDeltaTime());
-		if (gameState == GameState.PLAYING) {
-			world.process();
-		}
+		world.process();
 	}
 
 	@Override

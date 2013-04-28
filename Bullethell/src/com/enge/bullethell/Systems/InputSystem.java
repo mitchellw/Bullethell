@@ -1,6 +1,7 @@
 package com.enge.bullethell.Systems;
 
 import com.enge.bullethell.Components.Velocity_Component;
+import com.artemis.World;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -8,11 +9,14 @@ import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.GameState;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Destination_Component;
+import com.enge.bullethell.Entities.ShipFactory_Entity;
 
 public class InputSystem extends InputAdapter {
 	private OrthographicCamera camera;
+	private World world;
 
-	public InputSystem (OrthographicCamera camera) {
+	public InputSystem (World world, OrthographicCamera camera) {
+		this.world = world;
 		this.camera = camera;
 	}
 
@@ -52,6 +56,12 @@ public class InputSystem extends InputAdapter {
 		else {
 			PlayerFire_System.firing = false;
 			Bullethell.gameState = GameState.PLAYING;
+			Bullethell.splashScreen.deleteFromWorld();
+			Bullethell.player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
+			ShipFactory_Entity.createEnemy1(world, new Vector2(100, 600), new Vector2(0, -1), 0, new Vector2(500, -50));
+			ShipFactory_Entity.createEnemy1(world, new Vector2(250, 800), new Vector2(0, -1), 0, new Vector2(0, -50));
+			ShipFactory_Entity.createEnemy1(world, new Vector2(400, 700), new Vector2(0, -1), 0, new Vector2(300, -50));
+			Bullethell.scoreEntity.addToWorld();
 		}
 
 		return true;
