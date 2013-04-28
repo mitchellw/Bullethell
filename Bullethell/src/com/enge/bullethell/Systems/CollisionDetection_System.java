@@ -10,6 +10,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.audio.Sound;
 import com.enge.bullethell.Bullethell;
+import com.enge.bullethell.GameState;
 import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Bullet_Component;
@@ -172,7 +173,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									entity.deleteFromWorld();
     									explosion.play();
-    									break;
+    									Bullethell.gameState = GameState.LOST;
     								}
     								secondEntity.deleteFromWorld();
     								//iterator2.remove();
@@ -199,7 +200,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									secondEntity.deleteFromWorld();
     									death.play();
-    									break;
+    									Bullethell.gameState = GameState.LOST;
     								}
     								entity.deleteFromWorld();
     								//iterator1.remove();
@@ -248,7 +249,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									world.deleteEntity(secondEntity);
     									entities.remove(secondEntity);
     									death.play();
-    									break;
+    									Bullethell.gameState = GameState.LOST;
     								}
     							}
     							else if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
@@ -260,7 +261,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									world.deleteEntity(entity);
     									entities.remove(entity);
     									death.play();
-    									break;
+    									Bullethell.gameState = GameState.LOST;
     								}
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)

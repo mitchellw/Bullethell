@@ -35,7 +35,8 @@ public class Render_System extends EntityProcessingSystem
 	private OrthographicCamera camera;
 	private BitmapFont font;
 
-    public Render_System(OrthographicCamera camera) {
+    @SuppressWarnings({ "unchecked", "static-access" })
+	public Render_System(OrthographicCamera camera) {
         super(Aspect.getAspectForAll(Position_Component.class, Position_Component.class)
             .getAspectForOne(Sprite_Component.class, Font_Component.class));
 

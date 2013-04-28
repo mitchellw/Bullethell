@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Destination_Component;
 import com.enge.bullethell.Components.Position_Component;
@@ -17,6 +16,7 @@ public class Path_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Position_Component> posM;
 	@Mapper ComponentMapper<Velocity_Component> velM;
 
+	@SuppressWarnings("unchecked")
 	public Path_System() {
 		super(Aspect.getAspectForAll(Destination_Component.class, Position_Component.class, Velocity_Component.class));
 	}
