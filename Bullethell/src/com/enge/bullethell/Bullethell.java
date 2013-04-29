@@ -21,16 +21,32 @@ import com.enge.bullethell.Systems.Movement_System;
 import com.enge.bullethell.Systems.Path_System;
 import com.enge.bullethell.Systems.Render_System;
 
+/**
+ * This is our "main" class.  It initializes our world, sprites, audio, and everything
+ * that we need for the game to run.
+ * @author All Members
+ * @version 29.04.2013
+ */
 public class Bullethell implements ApplicationListener {
 	private OrthographicCamera camera;
 	private World world;
 	private Render_System renderSystem;
+	
+	//Initial score.
 	public static int score = 0;
+	
+	//Entities the game will use
 	public static Entity player;
 	public static Entity splashScreen;
 	public static Entity scoreEntity;
+	
+	//State of the game.
 	public static GameState gameState;
+	
+	//Spawning system for enemies.
 	public static EnemySpawning_System spawnSystem;
+	
+	//Sounds and music played at appropriate times during the game.
 	private Sound collision;
 	private Sound death;
 	private Sound enemyCollision;
@@ -39,10 +55,15 @@ public class Bullethell implements ApplicationListener {
 	private Music bgmusic;
 
 	@Override
+	/**
+	 * This method initializes everything vital to getting the game working.
+	 */
 	public void create() {
+		//Starts everything.
 		gameState = GameState.START;
 		world = new World();
 
+		//Audio is initialized and set to the proper volume level.
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
 		death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
@@ -51,11 +72,15 @@ public class Bullethell implements ApplicationListener {
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		bgmusic = Gdx.audio.newMusic(Gdx.files.internal("audio/POL-tekno-labs-short.mp3"));
 		bgmusic.setVolume(0.75f);
+		
+		//Loops and plays the background music.
 		bgmusic.setLooping(true);
 		bgmusic.play();
 
-
+		//Sets up the camera and view for the world.
 		camera = new OrthographicCamera();
+		
+		//Initializes and sets all systems.
 		renderSystem = new Render_System(camera);
 		world.setSystem(renderSystem);
 		world.setSystem(new CollisionDetection_System(collision,
@@ -65,16 +90,20 @@ public class Bullethell implements ApplicationListener {
 		world.setSystem(new Path_System());
 		spawnSystem = new EnemySpawning_System();
 
+		//Takes care of the splash screen.
 		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
 		splashScreen.addToWorld();
 		scoreEntity = world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null));
 		
-
+		//Initializes the world and input processor.
 		world.initialize();
 		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}
 
 	@Override
+	/**
+	 * This method disposes all audio in the game.  Called when the game ends.
+	 */
 	public void dispose() {
 		collision.dispose();
 		death.dispose();
@@ -85,17 +114,26 @@ public class Bullethell implements ApplicationListener {
 	}
 
 	@Override
+	/**
+	 * Renders everything in the world.
+	 */
 	public void render() {
 		world.setDelta(Gdx.graphics.getDeltaTime());
 		world.process();
 	}
 
 	@Override
+	/**
+	 * Resizes everything to the dimensions of the current screen.
+	 */
 	public void resize(int width, int height) {
 		renderSystem.resize(width, height);
 	}
 
 	@Override
+	/**
+	 * Pauses.  (unused)
+	 */
 	public void pause() {
 		//collision.dispose();
 		//death.dispose();
@@ -105,6 +143,9 @@ public class Bullethell implements ApplicationListener {
 	}
 
 	@Override
+	/**
+	 * Resumes.  (unused)
+	 */
 	public void resume() {
 		//fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
 		//collision = Gdx.audio.newSound(Gdx.files.internal("audio/Collision8-Bit.ogg"));
