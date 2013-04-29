@@ -87,8 +87,8 @@ public class InputSystem extends InputAdapter {
 		else {
 			PlayerFire_System.firing = false;
 			Bullethell.gameState = GameState.PLAYING;
-			Bullethell.splashScreen.deleteFromWorld();
-			Bullethell.player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
+			Bullethell.splashScreen.disable();
+			Bullethell.player.enable();
 			Bullethell.scoreEntity.addToWorld();
 			world.setSystem(Bullethell.spawnSystem);
 		}

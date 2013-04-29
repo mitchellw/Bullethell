@@ -1,7 +1,5 @@
 package com.enge.bullethell;
 
-
-
 import com.enge.bullethell.Components.Font_Component;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
@@ -61,7 +59,6 @@ public class Bullethell implements ApplicationListener {
 	public void create() {
 		//Starts everything.
 		gameState = GameState.START;
-		world = new World();
 
 		//Audio is initialized and set to the proper volume level.
 		fire = Gdx.audio.newSound(Gdx.files.internal("audio/lasergun_fire.wav"));
@@ -77,27 +74,7 @@ public class Bullethell implements ApplicationListener {
 		bgmusic.setLooping(true);
 		bgmusic.play();
 
-		//Sets up the camera and view for the world.
-		camera = new OrthographicCamera();
-		
-		//Initializes and sets all systems.
-		renderSystem = new Render_System(camera);
-		world.setSystem(renderSystem);
-		world.setSystem(new CollisionDetection_System(collision,
-				death, enemyCollision, explosion));
-		world.setSystem(new Movement_System());
-		world.setSystem(new PlayerFire_System(fire));
-		world.setSystem(new Path_System());
-		spawnSystem = new EnemySpawning_System();
-
-		//Takes care of the splash screen.
-		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
-		splashScreen.addToWorld();
-		scoreEntity = world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null));
-		
-		//Initializes the world and input processor.
-		world.initialize();
-		Gdx.input.setInputProcessor(new InputSystem(world, camera));
+		resetWorld();
 	}
 
 	@Override
@@ -152,5 +129,30 @@ public class Bullethell implements ApplicationListener {
 		//death = Gdx.audio.newSound(Gdx.files.internal("audio/Death.ogg"));
 		//enemyCollision = Gdx.audio.newSound(Gdx.files.internal("audio/enemycollision.ogg"));
 		//explosion = Gdx.audio.newSound(Gdx.files.internal("audio/MediumExplosion8-Bit.ogg"));
+	}
+	
+	public void resetWorld() {
+		world = new World();
+		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
+		player.disable();
+		
+		camera = new OrthographicCamera();
+		renderSystem = new Render_System(camera);
+		world.setSystem(renderSystem);
+		world.setSystem(new CollisionDetection_System(collision,
+				death, enemyCollision, explosion));
+		world.setSystem(new Movement_System());
+		world.setSystem(new PlayerFire_System(fire));
+		world.setSystem(new Path_System());
+		spawnSystem = new EnemySpawning_System();
+
+		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
+		splashScreen.addToWorld();
+
+		score = 0;
+		scoreEntity = world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null));
+		
+		world.initialize();
+		Gdx.input.setInputProcessor(new InputSystem(world, camera));
 	}
 }

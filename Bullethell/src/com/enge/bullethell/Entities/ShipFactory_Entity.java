@@ -25,7 +25,7 @@ public class ShipFactory_Entity
     /**
      * The linear velocity of a player ship.
      */
-    public static final float PLAYER_VELOCITY = 5;
+    public static final float PLAYER_VELOCITY = 6;
     /**
      * The linear velocity of a enemy1 ship.
      */

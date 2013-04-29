@@ -173,8 +173,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									entity.deleteFromWorld();
-    									explosion.play();
+    									//entity.deleteFromWorld();
+    									entity.disable();
+    									Bullethell.splashScreen.enable();//.addToWorld();
+    									death.play();
     								}
     								secondEntity.deleteFromWorld();
     								//iterator2.remove();
@@ -201,7 +203,9 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									secondEntity.deleteFromWorld();
+    									//secondEntity.deleteFromWorld();
+    									secondEntity.disable();
+    									Bullethell.splashScreen.enable();//.addToWorld();
     									death.play();
     								}
     								entity.deleteFromWorld();
@@ -234,14 +238,13 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     							//Do nothing; we don't care if enemy ships interact
     							//}
 
-    							if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
+    							if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
     							{
     								healthM.get(entity).health -= 1;
     								if (healthM.get(entity).health <= 0)
     								{
     									Bullethell.score += scoreM.get(entity).score;
-    									world.deleteEntity(entity);
-    									entities.remove(entity);
+    									entity.deleteFromWorld();
     									explosion.play();
     								}
     								healthM.get(secondEntity).health -= 1;
@@ -250,12 +253,13 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									world.deleteEntity(secondEntity);
-    									entities.remove(secondEntity);
+    									//secondEntity.deleteFromWorld();
+    									secondEntity.disable();
+    									Bullethell.splashScreen.enable();//.addToWorld();
     									death.play();
     								}
     							}
-    							else if (owner1 == Owner.COMPUTER && owner2 == Owner.HUMAN)
+    							else if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
     							{
     								healthM.get(entity).health -= 1;
     								if (healthM.get(entity).health <= 0)
@@ -263,8 +267,9 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									world.deleteEntity(entity);
-    									entities.remove(entity);
+    									//entity.deleteFromWorld();
+    									entity.disable();
+    									Bullethell.splashScreen.enable();//.addToWorld();
     									death.play();
     								}
     								healthM.get(secondEntity).health -= 1;
@@ -272,8 +277,7 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     								{
     									//End the game?
     									Bullethell.score += scoreM.get(secondEntity).score;
-    									world.deleteEntity(secondEntity);
-    									entities.remove(secondEntity);
+    									secondEntity.deleteFromWorld();
     									explosion.play();
     								}
     							}
