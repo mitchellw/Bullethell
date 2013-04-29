@@ -14,6 +14,12 @@ import com.enge.bullethell.Components.Score_Component;
 import com.enge.bullethell.Components.Sprite_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
+/**
+ * 
+ * @author Wilson Mitchell
+ * @version 2013.04.29
+ *
+ */
 public class ShipFactory_Entity
 {
     /**
@@ -43,10 +49,26 @@ public class ShipFactory_Entity
 		return ship;
     }
 
+	/**
+	 * method add the player entity to the world
+	 * @param world
+	 * @param position
+	 * @param bulletType
+	 * @return returns a ship entity
+	 */
 	public static Entity createPlayer(World world, Vector2 position, int bulletType) {
 		return createShip(world, Vector2.Zero, position, "player", 64 ,64, bulletType, 1, -1, Owner.HUMAN, null);
 	}
 
+	/**
+	 * method add enemies to the world when called
+	 * @param world
+	 * @param position
+	 * @param velocity
+	 * @param bulletType
+	 * @param destination
+	 * @return returns an enemy entity
+	 */
 	public static Entity createEnemy1(World world, Vector2 position, Vector2 velocity, int bulletType, Vector2 destination) {
 		return createShip(world, velocity, position, "enemy", 64, 64, bulletType, 1, 100, Owner.COMPUTER, destination);
 	}
