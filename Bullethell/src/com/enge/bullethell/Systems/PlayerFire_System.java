@@ -6,9 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ *  The system that handles the player firing bullets in the World.
  *
  *  @author Wilson
  *  @version Apr 22, 2013
@@ -25,6 +23,9 @@ public class PlayerFire_System extends VoidEntitySystem
         this.fire = fire;
     }
 
+    /**
+     * Fires a bullet every 200 milliseconds.
+     */
     @Override
     protected void processSystem()
     {
@@ -32,7 +33,7 @@ public class PlayerFire_System extends VoidEntitySystem
             lastFired = System.currentTimeMillis();
 
             BulletFactory_Entity.playerFire(world);
-            fire.play(0.6f);
+            fire.play(0.6f); //Plays lasergun_fire.wav
         }
     }
 }
