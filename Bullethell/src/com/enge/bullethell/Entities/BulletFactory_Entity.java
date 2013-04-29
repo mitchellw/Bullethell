@@ -12,6 +12,12 @@ import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Sprite_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
+/**
+ * 
+ * @author All Members
+ * @version 2013.04.23
+ *
+ */
 public class BulletFactory_Entity {
 
 	public static Entity createBullet(World world, Vector2 velocity, Vector2 position, int width, int height, int bulletType, Owner owner)
@@ -30,6 +36,10 @@ public class BulletFactory_Entity {
 		return bullet;
 	}
 
+	/**
+	 * Method adds bullets to the world when called.
+	 * @param world
+	 */
 	public static void playerFire(World world) {
 	    // TODO: switch on bullet type?
 	    createBullet(world, new Vector2(0, 8), Bullethell.player.getComponent(Position_Component.class).position,
