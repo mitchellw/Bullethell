@@ -11,15 +11,32 @@ import com.enge.bullethell.Vector2;
 import com.enge.bullethell.Components.Destination_Component;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 
+/**
+ * System that handles input on the screen from the user.
+ * @author Tyler
+ * @version 29.04.2013
+ */
 public class InputSystem extends InputAdapter {
 	private OrthographicCamera camera;
 	private World world;
 
+	/**
+	 * Constructor for the input system class.
+	 * @param world 
+	 * @param camera
+	 */
 	public InputSystem (World world, OrthographicCamera camera) {
 		this.world = world;
 		this.camera = camera;
 	}
-
+	
+	/**
+	 * Returns true if the screen is being pressed.
+	 * @param screenX
+	 * @param screenY
+	 * @param pointer
+	 * @param button
+	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (Bullethell.gameState == GameState.PLAYING) {
@@ -34,6 +51,13 @@ public class InputSystem extends InputAdapter {
 		return true;
 	}
 
+	/**
+	 * Returns true if the input finger is being dragged across
+	 * the screen
+	 * @param screenX
+	 * @param screenY
+	 * @param pointer
+	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		if (Bullethell.gameState == GameState.PLAYING) {
@@ -46,6 +70,13 @@ public class InputSystem extends InputAdapter {
 		return true;
 	}
 
+	/**
+	 * Returns true if the screen is not being pressed down.
+	 * @param screenX
+	 * @param screenY
+	 * @param pointer
+	 * @param button
+	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (Bullethell.gameState == GameState.PLAYING) {

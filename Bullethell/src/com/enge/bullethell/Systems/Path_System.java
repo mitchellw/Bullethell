@@ -12,18 +12,32 @@ import com.enge.bullethell.Components.Score_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 import com.enge.bullethell.Entities.ShipFactory_Entity;
 
+/**
+ * System that creates destination vectors for the player
+ * and enemy ships to move to.
+ * @author Wilson, Akhil, Stephen
+ * @version 29.04.2013
+ *
+ */
 public class Path_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Destination_Component> destM;
 	@Mapper ComponentMapper<Position_Component> posM;
 	@Mapper ComponentMapper<Velocity_Component> velM;
 	@Mapper ComponentMapper<Score_Component> scoreM;
 
+	/**
+	 * Constructor for the Path_System class.
+	 */
 	@SuppressWarnings("unchecked")
 	public Path_System() {
 		super(Aspect.getAspectForAll(Destination_Component.class, Position_Component.class,
 				Velocity_Component.class, Score_Component.class));
 	}
 
+	/**
+	 * 
+	 * @param entity The entity to define the destination path for
+	 */
 	@Override
 	protected void process(Entity entity) {
 		Vector2 destinationPosition = destM.get(entity).destination;

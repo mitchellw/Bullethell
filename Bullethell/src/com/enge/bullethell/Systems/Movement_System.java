@@ -24,13 +24,19 @@ public class Movement_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Velocity_Component> velocityM;
 	
 	
-
+	/**
+	 * Constructor for the Movement_System class.
+	 */
     @SuppressWarnings("unchecked")
 	public Movement_System()
     {
         super(Aspect.getAspectForAll(Position_Component.class, Velocity_Component.class));
     }
     
+    /**
+     * Gets the entity's position and velocity and updates those components.
+     * @param entity The entity to update position for 
+     */
     public void updatePosition(Entity entity)
     {
         Vector2 position = positionM.get(entity).position;
@@ -40,12 +46,18 @@ public class Movement_System extends EntityProcessingSystem {
     }
 
     
+    /**
+     * Updates the position of the entity (moving the entity).
+     * @param entity The entity to move
+     */
     @Override
     protected void process(Entity entity) {
         //To change body of implemented methods use File | Settings | File Templates.
     	updatePosition(entity);
     	
+    	
     	Vector2 position = positionM.get(entity).position;
+    	//Entity is removed if it goes outside the boundaries of the World.
     	if (position.y > 830 || position.x < -30 || position.x > 510 || position.y < -30) {
     		entity.deleteFromWorld();
     	}
