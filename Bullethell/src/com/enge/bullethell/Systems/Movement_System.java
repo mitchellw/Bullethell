@@ -9,8 +9,10 @@ import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.GameState;
 import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
+import com.enge.bullethell.Components.Bullet_Component;
 import com.enge.bullethell.Components.Owner_Component;
 import com.enge.bullethell.Components.Position_Component;
+import com.enge.bullethell.Components.Score_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
 /**
@@ -27,6 +29,7 @@ public class Movement_System extends EntityProcessingSystem {
 	@Mapper ComponentMapper<Position_Component> positionM;
 	@Mapper ComponentMapper<Velocity_Component> velocityM;
 	@Mapper ComponentMapper<Owner_Component> ownerM;
+	@Mapper ComponentMapper<Score_Component> scoreM;
 	
 	
 	/**
@@ -67,7 +70,7 @@ public class Movement_System extends EntityProcessingSystem {
     		//Entity is removed if it goes outside the boundaries of the World.
     		if (position.y > 830 || position.x < -30 || position.x > 510 || position.y < -30) {
     			Owner owner = ownerM.get(entity).owner;
-    			if (owner == Owner.COMPUTER)
+    			if (owner == Owner.COMPUTER || !scoreM.has(entity))
     			{
     				entity.deleteFromWorld();
     			}
