@@ -11,13 +11,15 @@ import com.artemis.Component;
 public class Bullet_Component extends Component 
 {
 	public int weaponType;
+	public long fireRate;
 	
 	/**
 	 * Constructor that takes a weapon type.
 	 * @param weaponType The type of weapon.
 	 */
-	public Bullet_Component(int weaponType)
+	public Bullet_Component(int weaponType, long fireRate)
 	{
 		this.weaponType = weaponType;
+		this.fireRate = fireRate;
 	}
 }

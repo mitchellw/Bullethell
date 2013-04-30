@@ -89,7 +89,7 @@ public class Render_System extends EntityProcessingSystem
     	if (spriteM.has(entity)) {
     		drawSprite(spriteM.get(entity), position);
     	}
-    	else if (fontM.has(entity)){
+    	else if (fontM.has(entity)) {
     		drawText("SCORE: " + Bullethell.score, position);
     	}
     }

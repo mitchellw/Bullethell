@@ -39,7 +39,17 @@ public class ShipFactory_Entity
         ship.addComponent(new Velocity_Component(velocity));
         ship.addComponent(new Position_Component(position));
         ship.addComponent(new Hitbox_Component(width, height));
-        ship.addComponent(new Bullet_Component(bulletType));
+        switch (bulletType) {
+        	case 0:
+        		ship.addComponent(new Bullet_Component(bulletType, 250));
+        		break;
+        	case 1:
+        		ship.addComponent(new Bullet_Component(bulletType, 300));
+        		break;
+        	default:
+        		ship.addComponent(new Bullet_Component(bulletType, 250));
+        		break;
+        }
         ship.addComponent(new Health_Component(health));
         ship.addComponent(new Score_Component(score));
         ship.addComponent(new Owner_Component(owner));

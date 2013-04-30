@@ -2,6 +2,7 @@ package com.enge.bullethell.Systems;
 
 import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.GameState;
+import com.enge.bullethell.Components.Bullet_Component;
 import com.enge.bullethell.Entities.BulletFactory_Entity;
 import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.audio.Sound;
@@ -32,7 +33,7 @@ public class PlayerFire_System extends VoidEntitySystem
     protected void processSystem()
     {
     	if (Bullethell.gameState == GameState.PLAYING) {
-    		if (firing && System.currentTimeMillis() - lastFired > 250) {
+    		if (firing && System.currentTimeMillis() - lastFired > Bullethell.player.getComponent(Bullet_Component.class).fireRate) {
     			lastFired = System.currentTimeMillis();
 
     			BulletFactory_Entity.playerFire(world);
