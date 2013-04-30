@@ -7,7 +7,9 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.enge.bullethell.Bullethell;
 import com.enge.bullethell.GameState;
+import com.enge.bullethell.Owner;
 import com.enge.bullethell.Vector2;
+import com.enge.bullethell.Components.Owner_Component;
 import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 
@@ -24,6 +26,7 @@ public class Movement_System extends EntityProcessingSystem {
 	
 	@Mapper ComponentMapper<Position_Component> positionM;
 	@Mapper ComponentMapper<Velocity_Component> velocityM;
+	@Mapper ComponentMapper<Owner_Component> ownerM;
 	
 	
 	/**
@@ -32,7 +35,7 @@ public class Movement_System extends EntityProcessingSystem {
     @SuppressWarnings("unchecked")
 	public Movement_System()
     {
-        super(Aspect.getAspectForAll(Position_Component.class, Velocity_Component.class));
+        super(Aspect.getAspectForAll(Position_Component.class, Velocity_Component.class, Owner_Component.class));
     }
     
     /**
@@ -43,6 +46,7 @@ public class Movement_System extends EntityProcessingSystem {
     {
         Vector2 position = positionM.get(entity).position;
         Vector2 velocity = velocityM.get(entity).velocity;
+
         
         positionM.get(entity).position = position.add(velocity);
     }
@@ -62,7 +66,31 @@ public class Movement_System extends EntityProcessingSystem {
     		Vector2 position = positionM.get(entity).position;
     		//Entity is removed if it goes outside the boundaries of the World.
     		if (position.y > 830 || position.x < -30 || position.x > 510 || position.y < -30) {
-    			entity.deleteFromWorld();
+    			Owner owner = ownerM.get(entity).owner;
+    			if (owner == Owner.COMPUTER)
+    			{
+    				entity.deleteFromWorld();
+    			}
+    			else
+    			{
+    				Vector2 newPos = Vector2.Zero;
+    				if (position.y > 830)
+    				{
+    					positionM.get(entity).position = newPos.add(position.x, 830);
+    				}
+    				if (position.x < 0)
+    				{
+    					positionM.get(entity).position = newPos.add(0, position.y);
+    				}
+    				if (position.x > 495)
+    				{
+    					positionM.get(entity).position = newPos.add(495, position.y);
+    				}
+    				if (position.y < -30)
+    				{
+    					positionM.get(entity).position = newPos.add(position.x, -30);
+    				}
+    			}
     		}
     	}
     	else {
