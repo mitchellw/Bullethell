@@ -36,6 +36,7 @@ public class Bullethell implements ApplicationListener {
 	//Entities the game will use
 	public static Entity player;
 	public static Entity splashScreen;
+	public static Entity gameOverScreen;
 	public static Entity scoreEntity;
 	
 	//State of the game.
@@ -74,7 +75,7 @@ public class Bullethell implements ApplicationListener {
 		bgmusic.setLooping(true);
 		bgmusic.play();
 
-		resetWorld();
+		initializeWorld();
 	}
 
 	@Override
@@ -131,7 +132,7 @@ public class Bullethell implements ApplicationListener {
 		//explosion = Gdx.audio.newSound(Gdx.files.internal("audio/MediumExplosion8-Bit.ogg"));
 	}
 	
-	public void resetWorld() {
+	public void initializeWorld() {
 		world = new World();
 		player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
 		player.disable();
@@ -148,6 +149,10 @@ public class Bullethell implements ApplicationListener {
 
 		splashScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("splash"));
 		splashScreen.addToWorld();
+		
+		gameOverScreen = world.createEntity().addComponent(new Position_Component(new Vector2(240, 400))).addComponent(new Sprite_Component("gameover"));
+		gameOverScreen.addToWorld();
+		gameOverScreen.disable();
 
 		score = 0;
 		scoreEntity = world.createEntity().addComponent(new Position_Component(new Vector2(20, 780))).addComponent(new Font_Component(null));

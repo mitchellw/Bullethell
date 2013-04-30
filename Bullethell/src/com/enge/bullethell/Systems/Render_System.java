@@ -1,6 +1,7 @@
 package com.enge.bullethell.Systems;
 
 import com.enge.bullethell.Bullethell;
+import com.enge.bullethell.GameState;
 import com.enge.bullethell.Components.Font_Component;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.artemis.Aspect;
@@ -83,13 +84,13 @@ public class Render_System extends EntityProcessingSystem
 
     @Override
     protected void process(Entity entity) {
-        // TODO: mul position by density.
+    	// TODO: mul position by density.
     	Vector2 position = positionM.get(entity).position;
     	if (spriteM.has(entity)) {
-    	    drawSprite(spriteM.get(entity), position);
+    		drawSprite(spriteM.get(entity), position);
     	}
     	else if (fontM.has(entity)){
-    	    drawText("SCORE: " + Bullethell.score, position);
+    		drawText("SCORE: " + Bullethell.score, position);
     	}
     }
 

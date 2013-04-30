@@ -106,14 +106,14 @@ public class CollisionDetection_System extends EntityProcessingSystem {
 
 		return true;
     }
-
+    
     /**
      * Processes all given entities versus every other entity in the list.
-     * @param e Unused.
      */
     @Override
-    protected void process(Entity e) {
-    	if (System.currentTimeMillis() - lastUpdated > 50) {
+    protected void begin() {
+    	if (Bullethell.gameState == GameState.PLAYING &&
+    			System.currentTimeMillis() - lastUpdated > 50) {
     		lastUpdated = System.currentTimeMillis();
 
     		Entity entity;
@@ -173,10 +173,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									//entity.deleteFromWorld();
-    									entity.disable();
-    									Bullethell.splashScreen.enable();//.addToWorld();
+    									entity.deleteFromWorld();
+    									Bullethell.gameOverScreen.enable();//.addToWorld();
     									death.play();
+    									break;
     								}
     								secondEntity.deleteFromWorld();
     								//iterator2.remove();
@@ -203,10 +203,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									//secondEntity.deleteFromWorld();
-    									secondEntity.disable();
-    									Bullethell.splashScreen.enable();//.addToWorld();
+    									secondEntity.deleteFromWorld();
+    									Bullethell.gameOverScreen.enable();//.addToWorld();
     									death.play();
+    									break;
     								}
     								entity.deleteFromWorld();
     								//iterator1.remove();
@@ -253,10 +253,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									//secondEntity.deleteFromWorld();
-    									secondEntity.disable();
-    									Bullethell.splashScreen.enable();//.addToWorld();
+    									secondEntity.deleteFromWorld();
+    									Bullethell.gameOverScreen.enable();//.addToWorld();
     									death.play();
+    									break;
     								}
     							}
     							else if (owner1 == Owner.HUMAN && owner2 == Owner.COMPUTER)
@@ -267,10 +267,10 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     									//End the game?
     									Bullethell.gameState = GameState.LOST;
     									world.deleteSystem(Bullethell.spawnSystem);
-    									//entity.deleteFromWorld();
-    									entity.disable();
-    									Bullethell.splashScreen.enable();//.addToWorld();
+    									entity.deleteFromWorld();
+    									Bullethell.gameOverScreen.enable();//.addToWorld();
     									death.play();
+    									break;
     								}
     								healthM.get(secondEntity).health -= 1;
     								if (healthM.get(secondEntity).health <= 0)
@@ -288,6 +288,15 @@ public class CollisionDetection_System extends EntityProcessingSystem {
     			counter++;
     		}
     	}
+    }
+
+
+    /**
+     * Unused
+     */
+    @Override
+    protected void process(Entity e) {
+    	//Unused
     }
 
     /**

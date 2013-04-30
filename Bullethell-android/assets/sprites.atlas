@@ -3,9 +3,16 @@ sprites.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-splash
+gameover
   rotate: false
   xy: 1, 151
+  size: 400, 600
+  orig: 400, 600
+  offset: 0, 0
+  index: -1
+splash
+  rotate: false
+  xy: 403, 151
   size: 400, 600
   orig: 400, 600
   offset: 0, 0
@@ -19,7 +26,7 @@ player
   index: -1
 enemy
   rotate: false
-  xy: 403, 702
+  xy: 805, 702
   size: 53, 49
   orig: 53, 49
   offset: 0, 0

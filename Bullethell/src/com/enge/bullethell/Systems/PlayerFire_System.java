@@ -1,5 +1,7 @@
 package com.enge.bullethell.Systems;
 
+import com.enge.bullethell.Bullethell;
+import com.enge.bullethell.GameState;
 import com.enge.bullethell.Entities.BulletFactory_Entity;
 import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.audio.Sound;
@@ -29,11 +31,13 @@ public class PlayerFire_System extends VoidEntitySystem
     @Override
     protected void processSystem()
     {
-        if (firing && System.currentTimeMillis() - lastFired > 250) {
-            lastFired = System.currentTimeMillis();
+    	if (Bullethell.gameState == GameState.PLAYING) {
+    		if (firing && System.currentTimeMillis() - lastFired > 250) {
+    			lastFired = System.currentTimeMillis();
 
-            BulletFactory_Entity.playerFire(world);
-            fire.play(0.6f); //Plays lasergun_fire.wav
-        }
+    			BulletFactory_Entity.playerFire(world);
+    			fire.play(0.6f); //Plays lasergun_fire.wav
+    		}
+    	}
     }
 }

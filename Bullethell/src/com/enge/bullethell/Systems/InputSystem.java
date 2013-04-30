@@ -1,5 +1,6 @@
 package com.enge.bullethell.Systems;
 
+import com.enge.bullethell.Components.Position_Component;
 import com.enge.bullethell.Components.Velocity_Component;
 import com.artemis.World;
 import com.badlogic.gdx.InputAdapter;
@@ -39,16 +40,21 @@ public class InputSystem extends InputAdapter {
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (Bullethell.gameState == GameState.PLAYING) {
-			Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
-			camera.unproject(unprojectedPos3);
+		if (pointer == 0) {
+			if (Bullethell.gameState == GameState.PLAYING) {
+				Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
+				camera.unproject(unprojectedPos3);
 
-			Bullethell.player.getComponent(Destination_Component.class).destination = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
+				Bullethell.player.getComponent(Destination_Component.class).destination = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
 
-			PlayerFire_System.firing = true;
+				PlayerFire_System.firing = true;
+			}
+
+			return true;
 		}
-
-		return true;
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -60,14 +66,19 @@ public class InputSystem extends InputAdapter {
 	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (Bullethell.gameState == GameState.PLAYING) {
-			Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
-			camera.unproject(unprojectedPos3);
+		if (pointer == 0) {
+			if (Bullethell.gameState == GameState.PLAYING) {
+				Vector3 unprojectedPos3 = new Vector3(screenX, screenY, 0);
+				camera.unproject(unprojectedPos3);
 
-			Bullethell.player.getComponent(Destination_Component.class).destination = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
+				Bullethell.player.getComponent(Destination_Component.class).destination = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
+			}
+
+			return true;
 		}
-
-		return true;
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -79,21 +90,33 @@ public class InputSystem extends InputAdapter {
 	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (Bullethell.gameState == GameState.PLAYING) {
-			Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
-			Bullethell.player.getComponent(Destination_Component.class).destination = null;
+		if (pointer == 0) {
 			PlayerFire_System.firing = false;
+			
+			if (Bullethell.gameState == GameState.PLAYING) {
+				Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
+				Bullethell.player.getComponent(Destination_Component.class).destination = null;
+			}
+			else if (Bullethell.gameState == GameState.START) {
+				Bullethell.splashScreen.disable();
+				Bullethell.player.enable();
+				Bullethell.scoreEntity.addToWorld();
+				Bullethell.gameState = GameState.PLAYING;
+				world.setSystem(Bullethell.spawnSystem);
+			}
+			else {
+				Bullethell.gameOverScreen.disable();
+				Bullethell.score = 0;
+				Bullethell.player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
+				Bullethell.gameState = GameState.PLAYING;
+				world.setSystem(Bullethell.spawnSystem);
+			}
+
+			return true;
 		}
 		else {
-			PlayerFire_System.firing = false;
-			Bullethell.gameState = GameState.PLAYING;
-			Bullethell.splashScreen.disable();
-			Bullethell.player.enable();
-			Bullethell.scoreEntity.addToWorld();
-			world.setSystem(Bullethell.spawnSystem);
+			return false;
 		}
-
-		return true;
 	}
 
 }
