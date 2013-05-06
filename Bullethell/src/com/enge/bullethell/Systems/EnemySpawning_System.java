@@ -36,7 +36,7 @@ public class EnemySpawning_System extends VoidEntitySystem {
 			lastSpawned = System.currentTimeMillis();
 			ShipFactory_Entity.createEnemy1(world, new Vector2(10 + random.nextInt(460), 800), new Vector2(0, -1), 0, new Vector2(10 + random.nextInt(460), -50));
 
-			if (System.currentTimeMillis() - lastIntervalDecreased > 10 * spawnInterval) {
+			if (System.currentTimeMillis() - lastIntervalDecreased > 5 * spawnInterval) {
 			    spawnInterval = Math.max(spawnInterval - 2, 125);
 			    lastIntervalDecreased = System.currentTimeMillis();
 			}
