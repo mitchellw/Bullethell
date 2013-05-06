@@ -20,17 +20,19 @@ import com.enge.bullethell.Entities.ShipFactory_Entity;
 public class InputSystem extends InputAdapter {
 	private OrthographicCamera camera;
 	private World world;
+	private boolean endDown;
 
 	/**
 	 * Constructor for the input system class.
-	 * @param world 
+	 * @param world
 	 * @param camera
 	 */
 	public InputSystem (World world, OrthographicCamera camera) {
 		this.world = world;
 		this.camera = camera;
+		endDown = false;
 	}
-	
+
 	/**
 	 * Returns true if the screen is being pressed.
 	 * @param screenX
@@ -48,6 +50,9 @@ public class InputSystem extends InputAdapter {
 				Bullethell.player.getComponent(Destination_Component.class).destination = new Vector2(unprojectedPos3.x, unprojectedPos3.y);
 
 				PlayerFire_System.firing = true;
+			}
+			else if (Bullethell.gameState == GameState.LOST) {
+			    endDown = true;
 			}
 
 			return true;
@@ -92,7 +97,7 @@ public class InputSystem extends InputAdapter {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (pointer == 0) {
 			PlayerFire_System.firing = false;
-			
+
 			if (Bullethell.gameState == GameState.PLAYING) {
 				Bullethell.player.getComponent(Velocity_Component.class).velocity = Vector2.Zero;
 				Bullethell.player.getComponent(Destination_Component.class).destination = null;
@@ -104,7 +109,8 @@ public class InputSystem extends InputAdapter {
 				Bullethell.gameState = GameState.PLAYING;
 				world.setSystem(Bullethell.spawnSystem);
 			}
-			else {
+			else if (endDown) {
+			    endDown = false;
 				Bullethell.gameOverScreen.disable();
 				Bullethell.score = 0;
 				Bullethell.player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
