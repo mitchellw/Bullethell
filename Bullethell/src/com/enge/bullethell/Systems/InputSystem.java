@@ -115,6 +115,7 @@ public class InputSystem extends InputAdapter {
 				Bullethell.score = 0;
 				Bullethell.player = ShipFactory_Entity.createPlayer(world, new Vector2(0, 0), 0);
 				Bullethell.gameState = GameState.PLAYING;
+				Bullethell.spawnSystem.reset();
 				world.setSystem(Bullethell.spawnSystem);
 			}
 

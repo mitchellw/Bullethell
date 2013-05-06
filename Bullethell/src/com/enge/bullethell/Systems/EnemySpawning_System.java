@@ -27,6 +27,10 @@ public class EnemySpawning_System extends VoidEntitySystem {
 		spawnInterval = 250;
 	}
 
+	public void reset() {
+	    spawnInterval = 250;
+	}
+
 	/**
 	 * Spawns an enemy with a random position every 200 milliseconds.
 	 */
